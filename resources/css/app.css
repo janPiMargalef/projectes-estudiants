@@ -1,0 +1,548 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('/public/font/static/Montserrat-Regular.ttf') format('truetype'); /* Ruta relativa a l'arxiu de la font Regular */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('/public/font/static/Montserrat-Bold.ttf') format('truetype'); /* Ruta relativa a l'arxiu de la font Bold */
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('/public/font/static/Montserrat-Medium.ttf') format('truetype'); /* Ruta relativa a l'arxiu de la font Medium */
+    font-weight: 500; /* Pes 500 és equivalent a Medium */
+    font-style: normal;
+}
+
+/* Defineix altres variants de la font Montserrat si les necessites (per exemple, Italic, etc.) */
+
+
+/* Estils generals */
+body, html {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f0;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1450px;
+    margin: 20px auto;
+}
+
+
+/* Estils per al div de la foto de perfil i els projectes de l'usuari */
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra horitzontalment els elements */
+    align-items: center; /* Centra verticalment els elements */
+    
+}
+
+.profile-section * {
+    font-weight: bold; /* Aplica negreta a tots els elements dins de .profile-section */
+}
+
+/* Estils per a la informació de l'usuari (subapartat superior) */
+.profile-info {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 230px; /* Amplia l'apartat */
+    text-align: center; /* Centra la imatge */
+}
+
+.user-name {
+    margin-top: 15%;
+}
+
+.profile-info img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 10%;
+    cursor: pointer; /* Canvia el cursor a la màquina quan està sobre l'element */
+    pointer-events: auto; /* Habilita els events de punter */
+}
+
+.image-project {
+    width: 80px;
+    height: 80px;
+    border-radius: 10%;
+    object-fit: cover;
+    margin-right: 10px;
+   
+}
+
+/* Estils per als projectes de l'usuari (subapartat inferior) */
+.user-projects {
+    background-color: white; /* Color de fons */
+    border-radius: 10px; /* Bordes rodons */
+    padding: 20px; /* Espaiat interior */
+    width: 230px;
+    
+}
+
+.user-projects ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.button-container {
+    margin-top: 20%;
+    display: flex;
+    justify-content: center; /* Centra els botons horitzontalment */
+}
+
+.buttonProjects {
+    background-color: #ffae01;
+    width: 50px;
+    height: 30px;
+    margin: 0 7px; /* Espaiat entre botons */
+    border: none; /* Elimina el borde */
+    border-radius: 10px; /* Bordes rodons */
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 01); /* Sombra a la dreta i abaix del botó */
+}
+
+.buttonProjects:hover {
+    background-color: #ffd9b3;
+    }
+    
+    .buttonProjects:focus {
+        background-color: #fcf6e6; /* Canvi de color de fons quan es passa el cursor o es fa focus */
+    }
+
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Fons semi-transparent */
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    .form-container button {
+        font-weight: bold; /* Negreta mitjà */
+        background-color: #ffae01;
+        width: 75px;
+        height: 30px;
+        margin: 0 7px; /* Espaiat entre botons */
+        border: none; /* Elimina el borde */
+        border-radius: 10px; /* Bordes rodons */
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 01); /* Sombra a la dreta i abaix del botó */
+        transition: background-color 0.3s; /* Transició suau del color de fons */
+        
+    }
+
+    .form-container button:hover {
+        background-color: #ffd9b3;
+        }
+        
+        .form-container button:focus {
+            background-color: #fcf6e6; /* Canvi de color de fons quan es passa el cursor o es fa focus */
+        }
+
+
+/* Estils per al div central amb els projectes guardats i els projectes principals */
+.main-section {
+    flex: 1; /* Flexibilitat per ocupar l'espai restant */
+    margin: 0 20px;
+    
+}
+
+.main-title {
+    font-weight: bold;  
+}
+/* Estils per als projectes guardats, matches, likes, etc. */
+.saved-projects {
+    background-color: white; /* Color de fons */
+    border-radius: 10px; /* Bordes rodons */
+    padding: 30px; /* Espaiat interior */
+    margin-bottom: 30px;
+}
+
+
+/* Estils per a l'encapçalament dels apartats */
+.saved-projects h3, .project-cards h3 {
+    margin-bottom: 10px; /* Espaiat inferior de l'encapçalament */
+}
+
+
+/* Estils per als quadrats dels projectes */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnes iguals */
+    gap: 0px; /* Espai entre les columnes */
+    margin-top: 2%;
+}
+
+.project-card-company {
+    background-color: #b2d4e0; /* Color de fons */
+    border-radius: 10px; /* Bordes rodons */
+    padding: 10px; /* Espaiat interior */
+    width: 170px;
+    height: 170px;    
+}
+
+.project-card-project {
+    background-color: #d0c2f3; /* Color de fons */
+    border-radius: 10px; /* Bordes rodons */
+    padding: 10px; /* Espaiat interior */
+    width: 170px;
+    height: 170px;    
+}
+
+.project-card-grant {
+    background-color: #f4fbdc; /* Color de fons */
+    border-radius: 10px; /* Bordes rodons */
+    padding: 10px; /* Espaiat interior */
+    width: 170px;
+    height: 170px;    
+}
+
+.project-card-image {
+    width: 80px; 
+    height: 80px;
+    border-radius: 8px; /* Bordes rodons per la imatge */
+}
+
+
+.project-card-company h6,
+.project-card-project h6,
+.project-card-grant h6 {
+    margin-top: 10px; /* Espaiat superior */
+    margin-bottom: 1px; /* Espaiat inferior del títol */
+    font-weight: bold; /* Font en negreta per a h6 */
+}
+
+.project-card-company p,
+.project-card-project p,
+.project-card-grant p {
+    margin-bottom: 0; /* Elimina l'espaiat inferior del paràgraf */
+    font-weight: 500; /* Pes 500 és equivalent a Medium */
+}
+
+.icon-project { 
+    width:  3.5%; 
+    height: 7%;
+    margin-left: 4.5%;
+    margin-top: -1.5%;
+    position: absolute;
+}
+.menu-contextual {
+    width: 100px; 
+    margin-left: 43%;
+    margin-top: 5%;
+    margin-bottom: -10px;
+}
+
+
+/* Estils segon apartat de main */
+.project-cards {
+    background-color:  #e4edf4; /* Color de fons */
+    border-radius: 10px; /* Bordes rodons */
+    padding: 1px; /* Espaiat interior */
+    height: 800px;
+}
+
+.buttonContainerMain {
+    margin-top: 5%;
+    display: flex;
+    justify-content: flex-end; /* Botons tirats cap a la dreta */
+    margin-bottom: 10px; /* Espai entre els botons i les tarjetes */
+    margin-right: 13%;
+}
+
+
+.filter-icon {
+    width: 40px;
+    height: 40px;
+    margin-left: 8px;
+}
+
+.buttonMain {
+    font-weight: bold; /* Negreta mitjà */
+    background-color: #ffae01;
+    width: 75px;
+    height: 30px;
+    margin: 0 7px; /* Espaiat entre botons */
+    border: none; /* Elimina el borde */
+    border-radius: 10px; /* Bordes rodons */
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 01); /* Sombra a la dreta i abaix del botó */
+    transition: background-color 0.3s; /* Transició suau del color de fons */
+}
+
+.buttonMain:hover {
+background-color: #ffd9b3;
+}
+
+.buttonMain:focus {
+    background-color: #fcf6e6; /* Canvi de color de fons quan es passa el cursor o es fa focus */
+}
+
+.cardContainer {
+    display: flex;
+    justify-content: center; /* Centra les tarjetes horitzontalment */
+}
+
+.card-exemple {
+    position: relative;
+    padding: 20px;
+    width: 350px;
+    height: 360px;
+    background-color: #ffffff;
+    margin-top: 20px; /* Espai entre les tarjetes */
+    border-radius: 10px; /* Bordes rodons */
+    border: none;
+    margin: 20px;
+}
+
+.logo {
+    width: 90px; 
+    height: 90px;
+    border-radius: 8px; /* Bordes rodons per la imatge */
+    margin-right: 10px;
+    position: absolute;
+}
+
+
+.project-title {
+margin-left: 100px;
+margin-top: 5%;
+font-weight: bold;
+border-bottom: 1px solid #b99e28;
+width: 45%;
+position: absolute;
+}
+
+.sector {
+    margin-left: 100px;
+    margin-top: 16%;
+    position: absolute;
+}
+
+.company {
+    margin-left: 100px;
+    margin-top: 11%;
+    position: absolute;
+}
+
+.description {
+    font-size: 12px;
+    margin-left: 100px;
+    position: absolute;
+    margin-top: 28%;
+    margin-right: 3%;
+    max-width: 63%;
+}
+
+.budget {
+    position: absolute;
+    width: 90px; 
+    height: 40px;
+    background-color: #8f3bf3; /* Color de fons */
+    color: white; /* Color del text */
+    border-radius: 10px; /* Bordes rodons */
+    padding: 5px 10px; /* Espaiat interior */
+     /* Espaiat superior */
+    text-align: center; /* Aliniam el text al centre */
+    margin-top: 28%;
+    
+}
+
+.budget-title {
+    margin-top: 4%;
+    font-weight: 500;
+    margin-right: 5px; /* Espaiat dret */
+    font-size: 90%;
+    white-space: nowrap; /* Evita que el text es divideixi en línia */
+}
+
+
+
+.date {
+    position: relative; 
+    background-color: #f6fce0; /* Color de fons groc */
+    border-radius: 13px; /* Bordes rodons */
+    padding: 4px; /* Espaiat interior */
+    display: flex; /* Per utilitzar flexbox */
+    align-items: center; /* Centrat verticalment els elements */
+    width: 90px; 
+    font-size: 12px;
+    height: 30px;
+}
+
+.date-container {
+    display: flex;
+    align-items: center; /* Centrar verticalment els elements */
+    margin-top: 42%;
+    position: absolute;
+    
+}
+
+.clock-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 2px; /* Espaiat entre l'ícone i la data */
+    margin-top: 0;
+}
+
+.date-text {
+    font-weight: 500; /* Pes de la lletra */
+    margin-top: 17px;
+}
+
+.button-row {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Espai entre botons */
+    margin-top: 55%; /* Espai superior entre files */
+}
+
+.button-row-2 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Espai entre botons */
+    margin-top: 67%; /* Espai superior entre files */
+}
+
+.blue-button {
+    background-color: #12ddbc;
+    font-weight: 500;
+    border: none;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 11px;
+    width: 90px;
+    height: 30px;
+    
+    
+}
+
+.buttons-icons {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    margin-top: 80%;
+}
+
+.button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Elimina el padding perquè l'aspecte sigui més com un ícone */
+    border: none; /* Elimina les bordes */
+    background-color: transparent; /* Fons blanc */
+}
+
+.button-icon img {
+    width: 35px; /* Ajusta la mida de la imatge segons les teves necessitats */
+    height: 35px;
+}
+
+.open-icon {
+    margin-top: 10%;
+    position: absolute;
+    margin-left: 320%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Elimina el padding perquè l'aspecte sigui més com un ícone */
+    border: none; /* Elimina les bordes */
+    background-color: transparent; /* Fons blanc */
+
+}
+
+.open-icon img {
+    width: 18px; /* Ajusta la mida de la imatge segons les teves necessitats */
+    height: 18px;
+}
+
+/* Estils per al div de la barra lateral amb els anuncis i el chat */
+.sidebar-section {
+    flex: 0 0 300px; /* Amplada fixa */
+    margin-right: 20px; /* Espaiat a la dreta */
+}
+
+/* Estils per als apartats d'anuncis i events */
+.events, .chat-section {
+    background-color: white; /* Color de fons */
+    border-radius: 10px; /* Bordes rodons */
+    padding: 20px; /* Espaiat interior */
+    margin-bottom: 30px; /* Espaiat inferior */
+}
+
+/* Estils per a l'apartat d'anuncis */
+.ads {
+    position: relative;
+    background-color: white; /* Color de fons */
+    border-radius: 10px; /* Bordes rodons */
+    padding: 25px 25px;
+    margin-bottom: 30px; /* Espaiat inferior */
+    background-image: url('/public/images/ad-image4.jpg'); /* Ruta de la imatge de fons */
+    background-size: cover; /* Escalat per cobrir tot l'element */
+    background-position: center; /* Posició de la imatge centrada */
+    height: 300px;
+    cursor: pointer; /* Canvia el cursor a la màquina quan està sobre l'element */
+    pointer-events: auto; /* Habilita els events de punter */
+    color: white;
+    font-weight: normal;
+}
+
+.ad-text {
+    margin-top: 3%;
+    position: absolute;
+    margin-right: 60%;
+}
+
+.ad-more {
+    position: absolute;
+margin-top: 70%;
+}
+
+.ad-icon {
+    position: absolute;
+    margin-left: 75%;
+}
+
+
+
+/* Estils per a apartat d'events */
+.events-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+
+}
+
+
+
+
+/* Estils per a tots els divs amb títols */
+.chats-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+
+}
+
