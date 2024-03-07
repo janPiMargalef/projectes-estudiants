@@ -75,6 +75,9 @@ body, html {
     cursor: pointer; /* Canvia el cursor a la màquina quan està sobre l'element */
     pointer-events: auto; /* Habilita els events de punter */
 }
+.profile-info img:hover {
+    filter: brightness(80%);
+}
 
 .image-project {
     width: 80px;
@@ -179,6 +182,7 @@ body, html {
     border-radius: 10px; /* Bordes rodons */
     padding: 30px; /* Espaiat interior */
     margin-bottom: 30px;
+    width: 100%;
 }
 
 
@@ -196,7 +200,7 @@ body, html {
     margin-top: 2%;
 }
 
-.project-card-company {
+.project-card-saved {
     background-color: #b2d4e0; /* Color de fons */
     border-radius: 10px; /* Bordes rodons */
     padding: 10px; /* Espaiat interior */
@@ -204,21 +208,6 @@ body, html {
     height: 170px;    
 }
 
-.project-card-project {
-    background-color: #d0c2f3; /* Color de fons */
-    border-radius: 10px; /* Bordes rodons */
-    padding: 10px; /* Espaiat interior */
-    width: 170px;
-    height: 170px;    
-}
-
-.project-card-grant {
-    background-color: #f4fbdc; /* Color de fons */
-    border-radius: 10px; /* Bordes rodons */
-    padding: 10px; /* Espaiat interior */
-    width: 170px;
-    height: 170px;    
-}
 
 .project-card-image {
     width: 80px; 
@@ -227,28 +216,30 @@ body, html {
 }
 
 
-.project-card-company h6,
-.project-card-project h6,
-.project-card-grant h6 {
+.project-card-saved h6 {
     margin-top: 10px; /* Espaiat superior */
     margin-bottom: 1px; /* Espaiat inferior del títol */
     font-weight: bold; /* Font en negreta per a h6 */
 }
 
-.project-card-company p,
-.project-card-project p,
-.project-card-grant p {
+.project-card-saved p {
     margin-bottom: 0; /* Elimina l'espaiat inferior del paràgraf */
     font-weight: 500; /* Pes 500 és equivalent a Medium */
 }
-
-.icon-project { 
+.icon-project {
     width:  3.5%; 
     height: 7%;
-    margin-left: 4.5%;
+    margin-left: 3.8%;
     margin-top: -1.5%;
     position: absolute;
+    cursor: pointer; /* Canvia el cursor del ratolí quan passa per sobre de la imatge */
+    transition: transform 0.3s; /* Afegim una transició suau per l'escalatge */
 }
+
+.icon-project:hover {
+    transform: scale(1.2); /* Augmenta la mida de la imatge al passar el ratolí per sobre */
+}
+
 .menu-contextual {
     width: 100px; 
     margin-left: 43%;
@@ -262,7 +253,7 @@ body, html {
     background-color:  #e4edf4; /* Color de fons */
     border-radius: 10px; /* Bordes rodons */
     padding: 1px; /* Espaiat interior */
-    height: 800px;
+    height: auto;
 }
 
 .buttonContainerMain {
@@ -302,19 +293,21 @@ background-color: #ffd9b3;
 
 .cardContainer {
     display: flex;
-    justify-content: center; /* Centra les tarjetes horitzontalment */
+    flex-wrap: wrap; /* Permetre que les targetes es "wrap" a la següent línia */
+    justify-content: space-between; /* Espai entre les targetes */
+    margin: 50px;
 }
 
 .card-exemple {
+    flex-basis: calc(50% - 40px); /* El 40px és la suma dels marges horitzontals (20px a cada costat) */
     position: relative;
     padding: 20px;
     width: 350px;
     height: 360px;
     background-color: #ffffff;
-    margin-top: 20px; /* Espai entre les tarjetes */
+    margin-top: 20px; /* Espai entre les targetes */
     border-radius: 10px; /* Bordes rodons */
     border: none;
-    margin: 20px;
 }
 
 .logo {
@@ -387,7 +380,7 @@ position: absolute;
     padding: 4px; /* Espaiat interior */
     display: flex; /* Per utilitzar flexbox */
     align-items: center; /* Centrat verticalment els elements */
-    width: 90px; 
+    width: 95px; 
     font-size: 12px;
     height: 30px;
 }
@@ -401,8 +394,8 @@ position: absolute;
 }
 
 .clock-icon {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
     margin-right: 2px; /* Espaiat entre l'ícone i la data */
     margin-top: 0;
 }
@@ -457,9 +450,14 @@ position: absolute;
     background-color: transparent; /* Fons blanc */
 }
 
+
+
 .button-icon img {
     width: 35px; /* Ajusta la mida de la imatge segons les teves necessitats */
     height: 35px;
+}
+.button-icon:hover img {
+    transform: scale(1.2); /* Augmenta la mida de la imatge al passar el ratolí per sobre del botó */
 }
 
 .open-icon {
@@ -479,6 +477,32 @@ position: absolute;
     width: 18px; /* Ajusta la mida de la imatge segons les teves necessitats */
     height: 18px;
 }
+
+.pagination-button {
+        font-weight: bold; /* Negreta mitjà */
+        background-color: #ffae01;
+        width: 50px;
+        height: 30px;
+        margin: 0 7px; /* Espaiat entre botons */
+        border: none; /* Elimina el borde */
+        border-radius: 10px; /* Bordes rodons */
+        box-shadow: 1px 1px 1px rgba(0, 0, 0, 01); /* Sombra a la dreta i abaix del botó */
+        transition: background-color 0.3s; /* Transició suau del color de fons */
+}
+
+.pagination-button:hover {
+    background-color: #ffd9b3;
+    }
+    
+
+.pagination-controls {
+    margin-bottom: 7%;
+    display: flex;
+    justify-content: center; /* Centra els botons horitzontalment */
+}
+
+
+
 
 /* Estils per al div de la barra lateral amb els anuncis i el chat */
 .sidebar-section {

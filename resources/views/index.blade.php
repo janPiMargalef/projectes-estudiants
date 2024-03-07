@@ -8,17 +8,18 @@
             <img src="/images/profile-image.png" alt="Foto de perfil">
                 <h6 class="user-name">CARLA GARCÍA</h6>
                 <h6>Researcher</h6>
-                <h3 class="user-name">KRUSH PROJECTS</h3>
+                <h6 class="user-name">KRUSH PROJECTS</h6>
             </div>
             <!-- Apartat dels projectes de l'usuari -->
             <div class="user-projects">
                 <br>
                 <h6>MY PROJECTS</h6>
                 <br>
-                <h6>Yours(1)</h6>
-                <img src="/projectes/proj2.jpg" alt="Projecte 2" class="image-project">
+                <h6>Yours(0)</h6>
+                <div id="userProjectLogos"></div> <!--Projectes de l'usuari dinàmicament -->
                 <br>
                 <br>
+                
                 <h6>Joined(2)</h6>
                 <img src="/projectes/proj3.jpg" alt="Projecte 3" class="image-project">
                 <img src="/projectes/proj4.jpg" alt="Projecte 4" class="image-project">
@@ -35,40 +36,10 @@
             <!-- Apartat dels projectes guardats, matches, likes, etc. -->
             <div class="saved-projects">
     <h6 class="main-title">MATCHES | SAVED | LIKE</h6>
+    
     <div class="project-grid">
         <!-- Aquí es pot afegir la lògica per mostrar els projectes -->
-        <div class="project-card-company">
-            <img src="/projectes/proj5.jpg" alt="Project 5" class="project-card-image">
-            <h6>COMPANY</h6>
-            <p>project</p>
-            <p>sector</p>
-            <img src="/icons/heart.png" alt="icon 1" class="icon-project">
-        </div>
 
-        <div class="project-card-project">
-            <img src="/projectes/proj6.jpg" alt="Project 6" class="project-card-image">
-            <h6>PROJECT TITLE</h6>
-            <p>Company</p>
-            <p>Sector</p>
-            <img src="/icons/heart.png" alt="icon 2" class="icon-project">
-        </div>
-
-        <div class="project-card-project">
-            <img src="/projectes/proj7.jpg" alt="Project 7" class="project-card-image">
-            <h6>PROJECT TITLE</h6>
-            <p>Company</p>
-            <p>Sector</p>
-            <img src="/icons/star.png" alt="icon 1" class="icon-project">
-        </div>
-
-        <div class="project-card-grant">
-            <img src="/projectes/proj8.jpg" alt="Project 8" class="project-card-image">
-            <h6>GRANT NAME</h6>
-            <p>Company</p>
-            <p>Sector</p> 
-            <img src="/icons/green.png" alt="icon 1" class="icon-project">
-        </div>
-        <!-- Afegir més projectes segons sigui necessari -->
     </div>
     <img src="/projectes/menu-contextual.png" alt="Icono ......" class="menu-contextual">
 </div>
@@ -87,80 +58,13 @@
                 <!-- Aquí es pot afegir la lògica per mostrar les tarjetes dels projectes -->
         <div class="cardContainer">
 
-        <div class="card-exemple">
-                <img src="/projectes/proj9.jpg" alt="Logo" class="logo">
-                <h6 class="project-title">PROJECT TITLE</h6>
        
-                <p class="company">Company</p>
-                <p class="sector">Sector</p>
-                <p class="description">Lorem ipsum dolor sit amet. Eum quia quia 33 accusantium sint et dolores itaque est quasi facilis ea nulla rerum.</p>
-        <div class="budget">
-                <div class="budget-header">
-                    <p class="budget-title">BUDGET€</p>
-                </div>
         </div>
-        <div class="date-container">
-            <div class="date">
-                <img src="/icons/clock-icon.png" alt="Clock icon" class="clock-icon">
-                <p class="date-text">24/02/2024</p>
-            </div>
-        </div>
-        <div class="button-row">
-            <button class="blue-button">Marketing</button>
-            <button class="blue-button">Legal</button>
-        </div>
-        <div class="button-row-2">
-            <button class="blue-button">Engineering</button>
-            <button class="blue-button">Tech</button>
-        </div>
-
-        <div class="buttons-icons">
-            <button class="button-icon"><img src="/icons/green.png" alt="Icon 1"></button>
-            <button class="button-icon"><img src="/icons/red.png" alt="Icon 2"></button>
-            <button class="button-icon"><img src="/icons/heart.png" alt="Icon 3"></button>
-            <button class="button-icon"><img src="/icons/star.png" alt="Icon 4"></button>
-            <button class="open-icon"><img src="/icons/flecha-icon.png" alt="Icon open source"></button>
-        </div>
-
-    </div><!--card -->
-    <!--card acaba aquí -->
-
-    <div class="card-exemple">
-                <img src="/projectes/proj9.jpg" alt="Logo" class="logo">
-                <h6 class="project-title">PROJECT TITLE</h6>
-       
-                <p class="company">Company</p>
-                <p class="sector">Sector</p>
-                <p class="description">Lorem ipsum dolor sit amet. Eum quia quia 33 accusantium sint et dolores itaque est quasi facilis ea nulla rerum.</p>
-        <div class="budget">
-                <div class="budget-header">
-                    <p class="budget-title">BUDGET€</p>
-                </div>
-        </div>
-        <div class="date-container">
-            <div class="date">
-                <img src="/icons/clock-icon.png" alt="Clock icon" class="clock-icon">
-                <p class="date-text">24/02/2024</p>
-            </div>
-        </div>
-        <div class="button-row">
-            <button class="blue-button">Marketing</button>
-            <button class="blue-button">Legal</button>
-        </div>
-        <div class="button-row-2">
-            <button class="blue-button">Engineering</button>
-            <button class="blue-button">Tech</button>
-        </div>
-        <div class="buttons-icons">
-            <button class="button-icon"><img src="/icons/green.png" alt="Icon 1"></button>
-            <button class="button-icon"><img src="/icons/red.png" alt="Icon 2"></button>
-            <button class="button-icon"><img src="/icons/heart.png" alt="Icon 3"></button>
-            <button class="button-icon"><img src="/icons/star.png" alt="Icon 4"></button>
-            <button class="open-icon"><img src="/icons/flecha-icon.png" alt="Icon open source"></button>
-        </div>
-    </div><!--card -->
-            </div>
-                </div>
+        <div class="pagination-controls">
+    <button class="pagination-button" id="prevPage"><---</button>
+    <button class="pagination-button" id="nextPage">---></button>
+</div>
+</div>
             
         </div>
         <div class="sidebar-section">
@@ -188,19 +92,25 @@
     <div id="myForm" class="overlay">
     <div class="form-container">
         <h2>Create Project</h2>
-        <form action="/submit_project" method="post">
-            <label for="project_name">Project Name:</label><br>
-            <input type="text" id="project_name" name="project_name"><br>
+        <form id="projectForm">
+            <label for="title">Project Title:</label><br>
+            <input type="text" id="title" name="title"><br>
+            <label for="logo">Logo:</label><br>
+            <input type="text" id="logo" name="logo"><br>
             <label for="company">Company:</label><br>
             <input type="text" id="company" name="company"><br>
             <label for="sector">Sector:</label><br>
             <input type="text" id="sector" name="sector"><br>
+            <label for="description">Description:</label><br>
+            <input type="text" id="description" name="description"><br>
             <label for="budget">Budget:</label><br>
             <input type="text" id="budget" name="budget"><br><br>
+
+
             <button type="submit">Submit</button>
             <button type="button" onclick="closeForm()">Close</button>
         </form>
-        
+        <div id="formErrors" style="color: red;"></div>
     </div>
 </div>
 </body>
@@ -215,6 +125,346 @@ function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    let currentPage = 1; 
+    let totalPages = 1; 
+    getToken().then(() => {
+        fetchUserProjectsSummary();
+        fetchUserProjects();
+    });
+
+    document.getElementById('projectForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); // Prevenir el envío por defecto
+
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+
+        // Obtener la fecha actual y formatearla
+        const today = new Date();
+        const formattedDate = today.getDate().toString().padStart(2, '0') + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getFullYear();
+        data.date = formattedDate; // Ajustar la fecha automáticamente
+
+        try {
+            const response = await fetch('http://localhost:8000/api/projects', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+ token
+                },
+                body: JSON.stringify(data)
+            });
+
+            const jsonResponse = await response.json();
+
+            if (!response.ok) {
+                // Mostrar errores de validación
+                const errorsContainer = document.getElementById('formErrors');
+                errorsContainer.innerHTML = jsonResponse.message + ': ' + jsonResponse.data.join(', ');
+            } else {
+                // Si el proyecto se crea correctamente
+                closeForm(); // Asume que esta función cierra el formulario
+                document.getElementById('projectForm').reset(); // Limpiar el formulario
+                fetchProjects(); // Recarga la lista de proyectos
+                fetchUserProjectsSummary();
+            }
+        } catch (error) {
+            console.error('Error creating project:', error);
+        }
+    });
+});
+
+async function fetchProjects(page = 1) {
+    const url = `http://localhost:8000/api/projects?page=${page}`;
+    // Asume que 'token' está disponible en tu alcance
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer '+ token
+            },
+        });
+
+        if (response.ok) {
+            const json = await response.json();
+            const projects = json.data.data;
+            totalPages = json.data.last_page;
+            currentPage = json.data.current_page;
+
+            // Limpia el contenedor antes de cargar nuevos proyectos
+            document.querySelector('.cardContainer').innerHTML = '';
+            projects.forEach(project => {
+                createCard({
+                    logo: project.logo,
+                    title: project.title,
+                    company: project.company,
+                    sector: project.sector,
+                    description: project.description,
+                    date: project.date,
+                    budget: project.budget,
+                    button1: "Marketing",
+                    button2: "Legal",
+                    button3: "Engineering",
+                    button4: "Tech",
+                    icon1: "/icons/green.png",
+                    icon2: "/icons/red.png",
+                    icon3: "/icons/heart.png",
+                    icon4: "/icons/star.png"
+                });
+            });
+           // Actualizar estado de los botones de paginación
+           document.getElementById('prevPage').disabled = currentPage <= 1;
+            document.getElementById('nextPage').disabled = currentPage >= totalPages;
+        } else {
+            console.error('Failed to fetch projects:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error fetching projects:', error);
+    }
+}
+
+// Añade escuchas de eventos a los botones de paginación
+document.getElementById('prevPage').addEventListener('click', () => {
+    if (currentPage > 1) {
+        fetchProjects(--currentPage);
+    }
+});
+
+document.getElementById('nextPage').addEventListener('click', () => {
+    if (currentPage < totalPages) {
+        fetchProjects(++currentPage);
+    }
+});
+
+
+function createCard(project) {
+    // Crear la tarjeta y sus elementos
+    const card = document.createElement('div');
+    card.className = 'card-exemple';
+
+    const img = document.createElement('img');
+    img.src = project.logo;
+    img.alt = "Logo";
+    img.className = "logo";
+
+    const title = document.createElement('h6');
+    title.className = "project-title";
+    title.textContent = project.title;
+
+    const company = document.createElement('p');
+    company.className = "company";
+    company.textContent = project.company;
+
+    const sector = document.createElement('p');
+    sector.className = "sector";
+    sector.textContent = project.sector;
+
+    const description = document.createElement('p');
+    description.className = "description";
+    description.textContent = project.description;
+
+    const budget = document.createElement('div');
+    budget.className = "budget";
+    const budgetHeader = document.createElement('div');
+    budgetHeader.className = "budget-header";
+    const budgetTitle = document.createElement('p');
+    budgetTitle.className = "budget-title";
+    budgetTitle.textContent = project.budget;
+    budgetHeader.appendChild(budgetTitle);
+    budget.appendChild(budgetHeader);
+
+    const dateContainer = document.createElement('div');
+    dateContainer.className = "date-container";
+    const date = document.createElement('div');
+    date.className = "date";
+    const clockIcon = document.createElement('img');
+    clockIcon.src = "/icons/clock-icon.png";
+    clockIcon.alt = "Clock icon";
+    clockIcon.className = "clock-icon";
+    const dateText = document.createElement('p');
+    dateText.className = "date-text";
+    dateText.textContent = project.date;
+    date.appendChild(clockIcon);
+    date.appendChild(dateText);
+    dateContainer.appendChild(date);
+
+    const buttonRow = document.createElement('div');
+    buttonRow.className = "button-row";
+    const button1 = document.createElement('button');
+    button1.className = "blue-button";
+    button1.textContent = project.button1;
+    const button2 = document.createElement('button');
+    button2.className = "blue-button";
+    button2.textContent = project.button2;
+    buttonRow.appendChild(button1);
+    buttonRow.appendChild(button2);
+
+    const buttonRow2 = document.createElement('div');
+    buttonRow2.className = "button-row-2";
+    const button3 = document.createElement('button');
+    button3.className = "blue-button";
+    button3.textContent = project.button3;
+    const button4 = document.createElement('button');
+    button4.className = "blue-button";
+    button4.textContent = project.button4;
+    buttonRow2.appendChild(button3);
+    buttonRow2.appendChild(button4);
+
+    const buttonsIcons = document.createElement('div');
+    buttonsIcons.className = "buttons-icons";
+    const iconButtons = ["icon1", "icon2", "icon3", "icon4"].map(iconKey => {
+        const button = document.createElement('button');
+        button.className = "button-icon";
+        const img = document.createElement('img');
+        img.src = project[iconKey];
+        img.alt = `Icon ${iconKey}`;
+        button.appendChild(img);
+        return button;
+    });
+
+    iconButtons.forEach(button => buttonsIcons.appendChild(button));
+
+    // Añadir todos los elementos a la tarjeta
+    card.appendChild(img);
+    card.appendChild(title);
+    card.appendChild(company);
+    card.appendChild(sector);
+    card.appendChild(description);
+    card.appendChild(budget);
+    card.appendChild(dateContainer);
+    card.appendChild(buttonRow);
+    card.appendChild(buttonRow2);
+    card.appendChild(buttonsIcons);
+
+    // Añadir la tarjeta al contenedor
+    document.querySelector('.cardContainer').appendChild(card);
+}
+
+//Method to generate token
+let token;
+
+async function getToken() {
+    console.log('Obteniendo token...');
+    try {
+        let token_url = 'http://localhost:8000/token';
+        const response = await fetch(token_url, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'                    
+            }
+        });
+        if (response.ok) {
+            const json = await response.json();
+            token = json.token;
+            console.log("Token obtenido: ", token);
+
+            // Ahora que tenemos el token, llamamos a fetchProjects
+            fetchProjects();
+        } else {
+            console.log('Error obteniendo el token');
+            showMessages('error', 'Error accediendo a las datos remotos.');
+        }
+    } catch (error) {
+        console.error('Error de red imprevisto', error);
+        showMessages('error', 'Error de red imprevisto.');
+    }
+}
+
+function handleButtonClick() {
+    // Aquí pots escriure el codi per gestionar el clic del botó
+    console.log("Has clicat la imatge!");
+    // Pots afegir altres accions aquí, com obrir una finestra emergent, redirigir a una altra pàgina, etc.
+}
+
+
+
+async function fetchUserProjectsSummary() {
+    const url = 'http://localhost:8000/api/projects/user/summary';
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        });
+
+        if (response.ok) {
+            const json = await response.json();
+            const logosContainer = document.getElementById('userProjectLogos');
+            logosContainer.innerHTML = ''; // Limpiar el contenedor
+
+            // Actualizar el contador de proyectos del usuario
+            document.querySelector('.user-projects h6:nth-of-type(2)').textContent = `Yours(${json.totalProjects})`;
+
+            // Añadir logos al contenedor
+            json.logos.forEach(logo => {
+                const img = document.createElement('img');
+                img.src = logo.logo; // Asume que 'logo' es la propiedad que contiene la URL del logo
+                img.alt = "Project Logo";
+                img.className = "image-project";
+                logosContainer.appendChild(img);
+            });
+        } else {
+            console.error('Error fetching user projects summary');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+
+async function fetchUserProjects() {
+    const url = 'http://localhost:8000/api/projects/user/saved';
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        });
+
+        if (response.ok) {
+            const json = await response.json();
+            const projectsGrid = document.querySelector('.project-grid');
+            projectsGrid.innerHTML = ''; // Limpiar el contenedor
+
+            json.projects.data.forEach(project => {
+                // Determinar el ícono basado en el tipo
+                let iconPath;
+                switch (project.pivot.type) {
+                    case "like":
+                        iconPath = "/icons/heart.png";
+                        break;
+                    case "saved":
+                        iconPath = "/icons/green.png";
+                        break;
+                    case "match":
+                        iconPath = "/icons/star.png";
+                        break;
+                    default:
+                        iconPath = "/icons/default.png"; // Asumiendo que tienes un ícono predeterminado
+                }
+
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card-saved';
+
+                projectCard.innerHTML = `
+                    <img src="${project.logo}" alt="Project" class="project-card-image">
+                    <h6>${project.title}</h6>
+                    <p>${project.company}</p>
+                    <p>${project.sector}</p>
+                    <img src="${iconPath}" alt="icon" class="icon-project" onclick="handleButtonClick()">`;
+
+                projectsGrid.appendChild(projectCard);
+            });
+        } else {
+            console.error('Error fetching user projects');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
 
 </script>
