@@ -5,10 +5,11 @@
         <div class="profile-section">
             <!-- Apartat de la foto de perfil i nom d'usuari -->
             <div class="profile-info">
-            <img src="/images/profile-image.png" alt="Foto de perfil">
-                <h6 class="user-name">CARLA GARCÍA</h6>
-                <h6>Researcher</h6>
-                <h6 class="user-name">KRUSH PROJECTS</h6>
+            <img src="/images/profile-images/default-image.jpg" alt="Foto de perfil" id="profileImage" class="clickable">
+            <input type="file" id="imageInput" name="image" accept="image/*" style="display: none;">
+                <h6 class="user-name"></h6>
+                <h6 class="user-occupation"></h6>
+                <h6 class="user-name">Energianaccion</h6>
             </div>
             <!-- Apartat dels projectes de l'usuari -->
             <div class="user-projects">
@@ -36,20 +37,22 @@
             <!-- Apartat dels projectes guardats, matches, likes, etc. -->
             <div class="saved-projects">
     <h6 class="main-title">MATCHES | SAVED | LIKE</h6>
-    
+    <button class="pagination-button-left" id="prevPageSaved"><</button> <!-- Botón de página anterior -->
+    <img src="/projectes/menu-contextual.png" alt="Icono ......" class="menu-contextual">
+    <button class="pagination-button-right" id="nextPageSaved">></button> 
     <div class="project-grid">
         <!-- Aquí es pot afegir la lògica per mostrar els projectes -->
 
     </div>
-    <img src="/projectes/menu-contextual.png" alt="Icono ......" class="menu-contextual">
+   
 </div>
  
             <!-- Apartat principal amb les tarjetes dels projectes -->
             <div class="project-cards">
             <div class="buttonContainerMain">
                     <button class="buttonMain">Projects</button>
-                    <button class="buttonMain">Partners</button>
-                    <button class="buttonMain">Money</button>
+                    <button class="buttonMain">Mentors</button>
+                    <button class="buttonMain">Students</button>
                     <button class="buttonMain">All</button>
                     <img src="/icons/filter-icon.png" alt="Filter icon" class="filter-icon">
                 </div>
@@ -78,9 +81,32 @@
             </div>
                 <!-- Apartat dels events -->
                 <div class="events">
-                <h6 class="events-title">Events</h6>
-                <!-- Aquí es pot afegir la lògica per mostrar els events -->
+    <h6 class="events-title">NEXT EVENTS</h6>
+    <div class="tarjetas-container">
+        <div class="tarjeta">
+            <img src="/projectes/proj2.jpg" alt="Foto del evento">
+            <div class="informacion">
+                <h6>EVENT NAME</h6>
+                <p>06/08/24 - Lleida</p>
             </div>
+        </div>
+        <div class="tarjeta">
+            <img src="/projectes/proj5.jpg" alt="Foto del evento">
+            <div class="informacion">
+                <h6>EVENT NAME</h6>
+                <p>06/08/24 - Lleida</p>
+            </div>
+        </div>
+        <div class="tarjeta">
+            <img src="/projectes/proj10.jpg" alt="Foto del evento">
+            <div class="informacion">
+                <h6>EVENT NAME</h6>
+                <p>06/08/24 - Lleida</p>
+            </div>
+        </div>
+    </div>
+</div>
+
             <!-- Apartat del petit chat desplegable -->
             <div class="chat-section">
                 <h6 class="chats-title">Chat</h6>
@@ -113,9 +139,102 @@
         <div id="formErrors" style="color: red;"></div>
     </div>
 </div>
+
+<!-- Modal de confirmación -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <p>Are you sure you want to undo this action?</p>
+        <button id="confirmButton">Yes</button>
+        <button id="cancelButton">Cancel</button>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-section">
+        <h3>Compañía</h3>
+        <ul>
+            <li><a href="#">Acerca de nosotros</a></li>
+            <li><a href="#">Nuestro equipo</a></li>
+            <li><a href="#">Contacto</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3>Plataforma</h3>
+        <ul>
+            <li><a href="#">Características</a></li>
+            <li><a href="#">Planes y precios</a></li>
+            <li><a href="#">Demostración</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3>Recursos</h3>
+        <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Documentación</a></li>
+            <li><a href="#">Descargas</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3>Soporte</h3>
+        <ul>
+            <li><a href="#">Centro de ayuda</a></li>
+            <li><a href="#">Preguntas frecuentes</a></li>
+            <li><a href="#">Soporte técnico</a></li>
+        </ul>
+    </div>
+</footer>
+
+
 </body>
 
 <script>
+
+//change profile image
+document.getElementById('imageInput').addEventListener('change', function(event) {
+    const fileInput = event.target;
+    if (fileInput.files && fileInput.files[0]) {
+        const formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+
+        // Muestra una vista previa de la imagen seleccionada
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profileImage').src = e.target.result;
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+
+        // Envía la nueva imagen al servidor
+        fetch('/api/projects/user/image', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token, // Asegúrate de que el token esté disponible
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            if (data.success) {
+                console.log("success")
+                // Actualiza la imagen de perfil para todos los visitantes
+                // Esto es opcional si ya has actualizado la imagen con la vista previa
+                // document.getElementById('profileImage').src = '/' + data.path;
+            } else {
+                // Manejar el error de subida de la imagen
+                console.error('Error uploading image:', data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+});
+
+// Listener para cambiar la imagen al hacer clic
+document.getElementById('profileImage').addEventListener('click', function() {
+    document.getElementById('imageInput').click();
+});
+
 
 function openForm() {
     document.getElementById("myForm").style.display = "flex";
@@ -128,9 +247,16 @@ function closeForm() {
 document.addEventListener('DOMContentLoaded', function() {
     let currentPage = 1; 
     let totalPages = 1; 
+
+    let currentPageProjects = 1;
+    let totalPagesProjects = 1; 
+
+   
     getToken().then(() => {
+        fetchUserInfo();
         fetchUserProjectsSummary();
         fetchUserProjects();
+        
     });
 
     document.getElementById('projectForm').addEventListener('submit', async function(e) {
@@ -188,6 +314,7 @@ async function fetchProjects(page = 1) {
         if (response.ok) {
             const json = await response.json();
             const projects = json.data.data;
+            //console.log("projecte: ", projects)
             totalPages = json.data.last_page;
             currentPage = json.data.current_page;
 
@@ -195,6 +322,7 @@ async function fetchProjects(page = 1) {
             document.querySelector('.cardContainer').innerHTML = '';
             projects.forEach(project => {
                 createCard({
+                    id: project.id,
                     logo: project.logo,
                     title: project.title,
                     company: project.company,
@@ -223,6 +351,9 @@ async function fetchProjects(page = 1) {
     }
 }
 
+
+
+
 // Añade escuchas de eventos a los botones de paginación
 document.getElementById('prevPage').addEventListener('click', () => {
     if (currentPage > 1) {
@@ -241,6 +372,8 @@ function createCard(project) {
     // Crear la tarjeta y sus elementos
     const card = document.createElement('div');
     card.className = 'card-exemple';
+    card.setAttribute('data-project-id', project.id);
+    //console.log("projectes amb id: ", project.id)
 
     const img = document.createElement('img');
     img.src = project.logo;
@@ -310,34 +443,64 @@ function createCard(project) {
     buttonRow2.appendChild(button3);
     buttonRow2.appendChild(button4);
 
-    const buttonsIcons = document.createElement('div');
-    buttonsIcons.className = "buttons-icons";
-    const iconButtons = ["icon1", "icon2", "icon3", "icon4"].map(iconKey => {
-        const button = document.createElement('button');
-        button.className = "button-icon";
-        const img = document.createElement('img');
-        img.src = project[iconKey];
-        img.alt = `Icon ${iconKey}`;
-        button.appendChild(img);
-        return button;
-    });
+// Creación de un contenedor adicional para los botones de interacción y el botón de abrir
+const interactionContainer = document.createElement('div');
+interactionContainer.className = "interaction-container";
 
-    iconButtons.forEach(button => buttonsIcons.appendChild(button));
+// Creación y configuración de buttonsIcons como antes
+const buttonsIcons = document.createElement('div');
+buttonsIcons.className = "buttons-icons";
 
-    // Añadir todos los elementos a la tarjeta
-    card.appendChild(img);
-    card.appendChild(title);
-    card.appendChild(company);
-    card.appendChild(sector);
-    card.appendChild(description);
-    card.appendChild(budget);
-    card.appendChild(dateContainer);
-    card.appendChild(buttonRow);
-    card.appendChild(buttonRow2);
-    card.appendChild(buttonsIcons);
+// Supongamos que tienes un objeto que mapea iconKey a type
+const iconTypeMapping = {
+    "icon1": "saved",
+    "icon2": "dislike",
+    "icon3": "like",
+    "icon4": "match"
+};
 
-    // Añadir la tarjeta al contenedor
-    document.querySelector('.cardContainer').appendChild(card);
+// Creación de los botones de interacción basados en los tipos definidos
+const iconButtons = ["icon1", "icon2", "icon3", "icon4"].map(iconKey => {
+    const button = document.createElement('button');
+    button.className = "button-icon";
+    button.setAttribute('data-type', iconTypeMapping[iconKey]); // Asigna el tipo de interacción
+    
+    const img = document.createElement('img');
+    img.src = project[iconKey];
+    img.alt = `Icon ${iconKey}`;
+    button.appendChild(img);
+    
+    return button;
+});
+
+// Añade los botones de interacción al contenedor buttonsIcons
+iconButtons.forEach(button => buttonsIcons.appendChild(button));
+
+// Añadir buttonsIcons al contenedor interactionContainer
+interactionContainer.appendChild(buttonsIcons);
+
+// Creación del botón de abrir
+const openButton = document.createElement('button');
+openButton.className = "open-button";
+openButton.innerHTML = ">"; // Contenido del botón
+// Añadir el botón de abrir al contenedor interactionContainer
+interactionContainer.appendChild(openButton);
+
+// Añadir todos los elementos a la tarjeta, incluyendo el nuevo contenedor interactionContainer
+card.appendChild(img);
+card.appendChild(title);
+card.appendChild(company);
+card.appendChild(sector);
+card.appendChild(description);
+card.appendChild(budget);
+card.appendChild(dateContainer);
+card.appendChild(buttonRow);
+card.appendChild(buttonRow2);
+card.appendChild(interactionContainer); // Ahora se añade el interactionContainer
+
+// Finalmente, añadir la tarjeta completa al contenedor de tarjetas
+document.querySelector('.cardContainer').appendChild(card);
+
 }
 
 //Method to generate token
@@ -371,11 +534,33 @@ async function getToken() {
 }
 
 function handleButtonClick() {
-    // Aquí pots escriure el codi per gestionar el clic del botó
-    console.log("Has clicat la imatge!");
-    // Pots afegir altres accions aquí, com obrir una finestra emergent, redirigir a una altra pàgina, etc.
+    // Muestra la ventana modal
+    const modal = document.getElementById('confirmationModal');
+    const projectId = event.target.closest('.project-card-saved').getAttribute('data-project-id');
+    modal.style.display = "block";
+
+    // Cuando el usuario hace clic en "Cancel", cierra la ventana modal
+    document.getElementById('cancelButton').onclick = function() {
+        modal.style.display = "none";
+    };
+
+    // Cuando el usuario hace clic en "Yes", realiza la acción deseada
+    document.getElementById('confirmButton').onclick = function() {
+        //console.log("Acción confirmada!");
+        modal.style.display = "none";
+        removeInteraction(projectId);
+        // Aquí puedes añadir la lógica para deshacer la interacción con el proyecto
+        // Por ejemplo, enviar una solicitud al servidor para deshacer la interacción
+    };
 }
 
+// Asegúrate de agregar este listener solo una vez y no dentro de un bucle para evitar múltiples asignaciones
+window.onclick = function(event) {
+    const modal = document.getElementById('confirmationModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
 
 
 async function fetchUserProjectsSummary() {
@@ -413,9 +598,9 @@ async function fetchUserProjectsSummary() {
 }
 
 
-
-async function fetchUserProjects() {
-    const url = 'http://localhost:8000/api/projects/user/saved';
+//function to load interacted projects
+async function fetchUserProjects(page = 1) {
+    const url = `http://localhost:8000/api/projects/user/saved?page=${page}`;
     try {
         const response = await fetch(url, {
             headers: {
@@ -428,6 +613,9 @@ async function fetchUserProjects() {
             const json = await response.json();
             const projectsGrid = document.querySelector('.project-grid');
             projectsGrid.innerHTML = ''; // Limpiar el contenedor
+            console.log(json)
+            totalPagesProjects = json.projects.last_page;
+            currentPageProjects = json.projects.current_page;
 
             json.projects.data.forEach(project => {
                 // Determinar el ícono basado en el tipo
@@ -443,11 +631,12 @@ async function fetchUserProjects() {
                         iconPath = "/icons/star.png";
                         break;
                     default:
-                        iconPath = "/icons/default.png"; // Asumiendo que tienes un ícono predeterminado
+                        iconPath = "/icons/red.png"; // Asumiendo que tienes un ícono predeterminado
                 }
 
                 const projectCard = document.createElement('div');
                 projectCard.className = 'project-card-saved';
+                projectCard.setAttribute('data-project-id', project.id);
 
                 projectCard.innerHTML = `
                     <img src="${project.logo}" alt="Project" class="project-card-image">
@@ -458,6 +647,10 @@ async function fetchUserProjects() {
 
                 projectsGrid.appendChild(projectCard);
             });
+
+            currentPageProjects = json.projects.current_page; // Actualiza la página actual
+            document.getElementById('prevPageSaved').disabled = !json.projects.prev_page_url;
+            document.getElementById('nextPageSaved').disabled = !json.projects.next_page_url;
         } else {
             console.error('Error fetching user projects');
         }
@@ -465,6 +658,111 @@ async function fetchUserProjects() {
         console.error('Error:', error);
     }
 }
+
+// Añade escuchas de eventos a los botones de paginación
+document.getElementById('prevPageSaved').addEventListener('click', () => {
+    if (currentPageProjects > 1) {
+        fetchUserProjects(--currentPageProjects);
+    }
+});
+
+document.getElementById('nextPageSaved').addEventListener('click', () => {
+    if (currentPageProjects < totalPagesProjects) {
+        fetchUserProjects(++currentPageProjects);
+    }
+});
+
+
+
+//get user info (name, occupation, profile image)
+async function fetchUserInfo() {
+    const url = 'http://localhost:8000/api/projects/user/info';
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        });
+
+        if (response.ok) {
+            const json = await response.json();
+            // Suponiendo que has obtenido la respuesta del servidor en una variable `response`
+            const user = json.data;
+            //console.log(user)
+            document.querySelector('.profile-info img').src = user.image;
+            document.querySelector('.profile-info .user-name').textContent = user.name;
+            document.querySelector('.profile-info .user-occupation').textContent = user.occupation;
+        
+
+        } else {
+            console.error('Error fetching user info');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+//function to create interaction btween project and user
+document.querySelector('.cardContainer').addEventListener('click', function(event) {
+    const button = event.target.closest('.button-icon');
+    if (button) {
+        const projectId = button.closest('.card-exemple').getAttribute('data-project-id');
+        const interactionType = button.getAttribute('data-type');
+        //console.log("datatype: ", interactionType)
+
+        // Asume que 'token' está disponible en tu alcance
+        fetch(`/api/projects/${projectId}/interact`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ type: interactionType }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            // Aquí puedes actualizar la UI para reflejar la interacción
+            fetchUserProjects();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+
+//function to remove interaction between project and user
+async function removeInteraction(projectId) {
+    try {
+        const response = await fetch(`/api/projects/${projectId}/interaction`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log(data.message);
+            // Aquí puedes actualizar la UI, por ejemplo, eliminando la tarjeta del proyecto o actualizando el ícono
+            // Podrías llamar a fetchUserProjects() para refrescar la lista de proyectos
+            fetchUserProjects();
+        } else {
+            console.error('Failed to remove interaction:', data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+
+
+
+
 
 
 </script>

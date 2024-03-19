@@ -33,6 +33,80 @@ class ProjectController extends Controller
     }
 
 
+    public function removeInteraction($projectId)
+    {
+        $user = Auth::user();
+    
+        // Eliminar cualquier interacción con el proyecto
+        $user->projectsUsers()->detach($projectId);
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Interacción eliminada correctamente.',
+        ]);
+    }
+    
+
+    //interact with project (like, save...)
+    public function interact(Request $request, Project $project)
+{
+    $user = Auth::user();
+    $type = $request->type; 
+
+    $interaction = $project->users()->syncWithoutDetaching([$user->id => ['type' => $type]]);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Interacción guardada correctamente.',
+    ]);
+}
+
+    public function userInfo()
+    {
+        // ordenats per ordre d'inserció
+        $user = Auth::user();
+        $userInfo = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'image' => $user->image, 
+            'occupation' => $user->occupation, 
+        ];
+
+        $response = [
+            'success' => true,
+            'message' => "Info d'usuari recuperada",
+            'data' => $userInfo,
+        ];
+
+        //return $response;
+        return response()->json($response,200);
+    }
+
+
+    public function updateProfileImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|max:2048', // 2MB max
+        ]);
+
+        $user = Auth::user();
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '.' . $file->getClientOriginalExtension(); // Crear un nombre único
+
+            // Guardar la imagen en public/images/profile-images
+            $path = $file->move(public_path('images/profile-images'), $filename);
+
+            // Actualizar la ruta de la imagen en la base de datos
+            $user->image = 'images/profile-images/' . $filename;
+            $user->save();
+
+            return response()->json(['success' => true, 'message' => 'Imagen actualizada correctamente', 'path' => $user->image]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'No se pudo actualizar la imagen']);
+    }
+
     public function showUserProjects()
     {
         $user = Auth::user();
@@ -41,7 +115,7 @@ class ProjectController extends Controller
             return response()->json(['success' => false, 'message' => 'Usuario no autenticado'], 403);
         }
     
-        $projects = $user->projects()->take(2)->get(['logo']); // Obtener los dos primeros proyectos
+        $projects = $user->projects()->latest()->take(2)->get(['logo']);
         $totalProjects = $user->projects()->count(); // Contar todos los proyectos del usuario
     
         return response()->json([
