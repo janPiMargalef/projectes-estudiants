@@ -83,15 +83,15 @@ body, html {
 .profile-info img:hover {
     filter: brightness(80%);
 }
-
 .image-project {
-    width: 80px;
-    height: 80px;
+    width: 42%;
+    height: 42%;
     border-radius: 10%;
     object-fit: cover;
-    margin-right: 10px;
-   
+    margin-right: 2%;
+    display: inline-block; /* Mostrar imágenes en línea */
 }
+
 
 /* Estils per als projectes de l'usuari (subapartat inferior) */
 .user-projects {
@@ -113,10 +113,11 @@ body, html {
     justify-content: center; /* Centra els botons horitzontalment */
 }
 
+
 .buttonProjects {
     background-color: #109336;
     color: white;
-    width: 50px;
+    width: 60px;
     height: 30px;
     margin: 0 7px; /* Espaiat entre botons */
     border: none; /* Elimina el borde */
@@ -290,7 +291,7 @@ body, html {
     background-color:  #e4edf4; /* Color de fons */
     border-radius: 10px; /* Bordes rodons */
     padding: 1px; /* Espaiat interior */
-    height: 1000px;
+    height: auto;
 }
 
 .buttonContainerMain {
@@ -308,11 +309,25 @@ body, html {
     margin-left: 8px;
 }
 
+.buttonMain-selected {
+    background-color: #084e1d; /* Cambia el color de fondo al seleccionado */
+    font-weight: bold; /* Negreta mitjà */
+    color: white;
+    width: 95px;
+    height: 30px;
+    margin: 0 7px; /* Espaiat entre botons */
+    border: none; /* Elimina el borde */
+    border-radius: 10px; /* Bordes rodons */
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 01); /* Sombra a la dreta i abaix del botó */
+    transition: background-color 0.3s; /* Transició suau del color de fons */
+}
+
+
 .buttonMain {
     font-weight: bold; /* Negreta mitjà */
     background-color: #109336;
     color: white;
-    width: 75px;
+    width: 95px;
     height: 30px;
     margin: 0 7px; /* Espaiat entre botons */
     border: none; /* Elimina el borde */
@@ -323,30 +338,33 @@ body, html {
 
 .buttonMain:hover {
 background-color: #084e1d;
+
+
 }
 
-.buttonMain:focus {
-    background-color: #084e1d; /* Canvi de color de fons quan es passa el cursor o es fa focus */
-}
+
 
 .cardContainer {
     display: flex;
     flex-wrap: wrap; /* Permetre que les targetes es "wrap" a la següent línia */
     justify-content: space-between; /* Espai entre les targetes */
     margin: 50px;
+    min-height: 400px;
 }
 
 .card-exemple {
-    flex-basis: calc(50% - 40px); /* El 40px és la suma dels marges horitzontals (20px a cada costat) */
+
+    margin: 5px;
     position: relative;
     padding: 20px;
-    width: 350px;
+    width: 350px; /* Este es el width que se aplica finalmente */
     height: 360px;
     background-color: #ffffff;
-    margin-top: 20px; /* Espai entre les targetes */
-    border-radius: 10px; /* Bordes rodons */
+    margin-top: 20px;
+    border-radius: 10px;
     border: none;
 }
+
 
 .logo {
     width: 90px; 
@@ -385,7 +403,9 @@ position: absolute;
     margin-top: 28%;
     margin-right: 3%;
     max-width: 63%;
+    word-wrap: break-word; /* Opcional: también puedes usar 'overflow-wrap: break-word;' */
 }
+
 
 .budget {
     position: absolute;
@@ -516,29 +536,37 @@ position: absolute;
     height: 18px;
 }
 
-.pagination-button {
-        font-weight: bold; /* Negreta mitjà */
-        background-color: #109336;
-        color: white;
-        width: 50px;
-        height: 30px;
-        margin: 0 7px; /* Espaiat entre botons */
-        border: none; /* Elimina el borde */
-        border-radius: 10px; /* Bordes rodons */
-        box-shadow: 1px 1px 1px rgba(0, 0, 0, 01); /* Sombra a la dreta i abaix del botó */
-        transition: background-color 0.3s; /* Transició suau del color de fons */
+.show-more-button {
+    font-weight: bold;
+    background-color: #109336;
+    color: white;
+    width: 110px;
+    height: 30px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+    margin: 20px auto; /* Centra horizontalmente y añade espacio arriba y abajo */
+    display: block; /* Para centrar el botón */
 }
 
-.pagination-button:hover {
+
+.show-more-button[disabled] {
+
+    background-color: gray; /* Cambia este color al que desees */
+    color: white; /* Cambia el color del texto si es necesario */
+}
+
+.show-more-button[disabled]:hover {
+
+    background-color: #a8a7a7; /* Cambia este color al que desees */
+    color: white; /* Cambia el color del texto si es necesario */
+}
+
+.show-more-button:hover {
     background-color: #084e1d;
     }
     
-
-.pagination-controls {
-    margin-bottom: 7%;
-    display: flex;
-    justify-content: center; /* Centra els botons horitzontalment */
-}
 
 
 
@@ -624,6 +652,7 @@ margin-top: 70%;
 #cancelButton {
     font-weight: bold; /* Negreta mitjà */
     background-color: #109336;
+    color: white;
     width: 25%;
     border: none; /* Elimina el borde */
     border-radius: 10px; /* Bordes rodons */
@@ -748,3 +777,447 @@ podrías necesitar ajustar el contenedor de buttonsIcons con flexbox */
     display: flex;
     align-items: center; /* Alinea verticalmente los elementos del contenedor */
 }
+
+
+.back-button {
+    margin-top: -6%;
+    margin-left: 3%;
+    cursor: pointer;
+    border-radius: 30px;
+    height: 50px;
+    width: 50px;
+    border: none;
+    font-size: 40px;
+    background-color: #e4edf4;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido */
+}
+
+.back-button:hover {
+    background-color: #baf1f5;
+}
+
+.project-details-card {
+    padding: 40px 40px;
+}
+
+/* Estilos para la clase "project-image" */
+.project-image {
+    width: 400px; /* Ancho deseado */
+    height: auto; /* Altura ajustada automáticamente */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+
+
+/* Estilo para el botón deshabilitado */
+.pagination-button[disabled] {
+    background-color: gray; /* Cambia este color al que desees */
+    color: white; /* Cambia el color del texto si es necesario */
+}
+
+.card-exemple-mentor {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    width: 80%;
+    max-width: 1000px;
+    background-color: #ffffff;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: none;
+    overflow: hidden;
+}
+
+.card-exemple-mentor img {
+    width: 150px;
+    height: 260px;
+    border-radius: 10%;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.mentorContainer {
+    display: flex;
+    flex-direction: column; /* Las tarjetas se apilan verticalmente */
+    align-items: center; /* Centra las tarjetas horizontalmente */
+    margin: 0;
+    padding: 0;
+    min-height: 400px;
+
+}
+
+/* Estilos de apariencia de enlace */
+.mentor-name {
+    color: blue; /* Color del texto */
+    text-decoration: underline; /* Subrayado para indicar que es un enlace */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el enlace */
+  }
+  
+  /* Estilos cuando se pasa el cursor sobre el enlace */
+  .mentor-name:hover {
+    color: darkblue; /* Cambiar el color del texto */
+  }
+  
+  .expertise-tag {
+    font-weight: bold;
+    display: inline-block;
+    background-color: #e1e1e1; /* Color de fondo de la mini tarjeta */
+    border-radius: 40px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno */
+    margin: 2px; /* Espaciado externo */
+    font-size: 0.8em; /* Tamaño de fuente más pequeño */
+    color: #333; /* Color de texto */
+    white-space: nowrap; /* Evita que el texto se envuelva */
+    cursor: pointer;
+  }
+  .expertise-tag:hover {
+    background-color: #cfcdcc;
+  }
+  
+  .expertise-container {
+    display: flex; /* Usa flexbox para organizar las mini tarjetas */
+    flex-wrap: wrap; /* Permite que las mini tarjetas pasen a la siguiente línea si no caben */
+    gap: 5px; /* Espaciado entre mini tarjetas */
+    margin-top: 10px; /* Espaciado sobre la primera mini tarjeta */
+  }
+  
+/* estils mentor DETAILS*/
+.mentorDetailsContainer {
+    display: none;
+    position: relative;
+    padding: 40px;
+  }
+  
+  .mentor-details-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: auto;
+    padding-bottom: 20px; /* Espacio en la parte inferior */
+    position: relative;
+  }
+  
+  .mentor-details-top {
+    width: 100%;
+    background-color: #1c3d7a; /* Color azul */
+    color: #fff;
+    padding: 10px 0; /* Espacio vertical */
+    text-align: center;
+    height: 200px;
+  }
+  
+  .mentor-social-link {
+    text-decoration: none;
+    margin-left: 70%;
+
+  }
+
+  .linkedin-logo {
+    width: 50px;
+    height: 50px;
+   margin-top: 17%;
+  }
+  
+  .mentor-profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute; /* Posicionar sobre las secciones */
+    left: 4%;
+    top: 28%; /* Ajuste basado en el tamaño del borde superior */
+    transform: translateY(-50%); /* Desplaza hacia arriba para sobresalir entre secciones */
+    border: 4px solid #fff; /* Borde para mejorar la transición entre secciones */
+  }
+  
+  .mentor-details-bottom {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 400px;
+    margin-top: 4%;
+    padding: 20px;
+  }
+  
+  .mentor-personal-info {
+    flex-basis: 50%; /* Ocupa aproximadamente la mitad del espacio */
+    padding: 20px;
+  }
+  
+  .mentor-skills {
+    flex-basis: 50%;
+    padding: 20px;
+  }
+  
+  .mentor-skill-tag {
+    display: inline-block;
+    background-color: #e1e1e1;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 2px;
+    font-size: 0.8em;
+  }
+  
+
+  .location-icon {
+    display: inline-block;
+    margin-right: 5px; /* Espacio entre el icono y el texto */
+    vertical-align: middle; /* Alinea el icono con el medio del texto */
+  }
+  
+  /* Si estás usando una imagen para el icono */
+  .location-icon img {
+    width: 16px; /* o el tamaño que prefieras */
+    height: 16px;
+  }
+  
+  
+  .back-button-mentor:hover {
+    background-color: #3c5f99;
+  }
+  
+  .back-button-mentor {
+
+    position: absolute; /* Posicionamiento absoluto respecto a su contenedor relativo */
+    top: 10%; /* Espacio desde la parte superior */
+    left: 0%; /* Espacio desde la izquierda */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 5px 10px; /* Relleno */
+    cursor: pointer; /* Cursor de mano al pasar por encima */
+    background-color: transparent;
+    border-radius: 50%;
+    color: white;
+    margin-top: -6%;
+    margin-left: 3%;
+    height: 50px;
+    width: 50px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido */
+
+  }
+
+ .title-style {
+    margin-top: 10%;
+ }
+
+ .yours-projects-section, .joined-projects-section {
+    cursor: pointer; /* Cambia el cursor para indicar que es clicable */
+    display: inline-block; /* Mostrar elementos en línea */
+    padding: 10px; /* Agregar espacio alrededor del contenido */
+    margin-top: 5%;
+  }
+  
+  .yours-projects-section:hover,
+  .joined-projects-section:hover {
+    /* Estilos adicionales cuando se hace hover */
+    /* Por ejemplo, cambia el color de fondo o agrega una sombra */
+    background-color: #f0f0f0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    text-decoration: underline;
+  } 
+  
+  .yours-projects-section:focus,
+  .joined-projects-section:focus {
+    /* Estilos adicionales cuando se hace hover */
+    /* Por ejemplo, cambia el color de fondo o agrega una sombra */
+    background-color: #f0f0f0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+
+  } 
+  
+
+.created-projects-container {
+    display: flex;
+    flex-wrap: wrap; /* Permetre que les targetes es "wrap" a la següent línia */
+    justify-content: space-between; /* Espai entre les targetes */
+    margin: 50px;
+    min-height: 400px;
+
+}
+
+.card-project-created {
+    margin: 5px;
+    position: relative;
+    padding: 20px;
+    width: 350px; /* Este es el width que se aplica finalmente */
+    height: 360px;
+    background-color: #ffffff;
+    margin-top: 5%;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center; /* Centra el contenido horizontalmente */
+    overflow: hidden; /* Para que los botones absolutos no se salgan de la tarjeta */
+}
+
+
+
+.project-info {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los elementos */
+    padding-right: 20px; /* Espacio entre la imagen y el título */
+}
+
+.logo-created {
+    width: 90px; 
+    height: 90px;
+    border-radius: 8px; /* Bordes rodons per la imatge */
+    margin-right: 10px;
+    position: absolute;
+    margin-top: 25%;
+
+}
+
+.title-created {
+    position: absolute;
+    margin-left: 30%;
+    margin-top: 5%;
+}
+
+.description-created {
+    position: absolute;
+    padding-right: 5%;
+    margin-top: 30%;
+}
+
+.date-created {
+    position: absolute;
+    margin-left: 30%;
+    margin-top: 18%;
+}
+
+.username-created {
+    position: absolute;
+    margin-left: 30%;
+    margin-top: 12%;
+}
+
+
+.project-details-created {
+    flex-grow: 1; /* Permite que el título y los detalles del proyecto ocupen todo el espacio disponible */
+}
+
+
+
+
+
+.button-container-created {
+    position: absolute;
+    margin-top: 70%;
+    left: 0; /* Alinea el contenedor de botones al lado izquierdo de la tarjeta */
+    width: 100%; /* Ocupa todo el ancho de la tarjeta */
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+}
+
+.button-project-created {
+    font-weight: bold;
+    background-color: #109336;
+    color: white;
+    width: 75px;
+    height: 30px;
+    margin: 0 5px; /* Espacio horizontal entre los botones */
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 01);
+    transition: background-color 0.3s;
+}
+
+.button-project-created:hover {
+    background-color: #084e1d;
+}
+
+.button-project-created:focus {
+    background-color: #084e1d;
+}
+
+
+    .open-button-created {
+        position: absolute;
+        border-radius: 50%; /* Hace el botón redondo */
+        width: 20px; /* Ajusta el tamaño según necesites */
+        height: 20px; /* Ajusta el tamaño según necesites */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #000; /* Añade un borde, ajusta según tu diseño */
+        background-color: #fff; /* Ajusta el color de fondo según tu diseño */
+        cursor: pointer; /* Cambia el cursor a un puntero para indicar que es clicable */
+        margin-left: 80%; /* Añade un margen a la izquierda para separarlo de los otros botones */
+        font-size: 20px; /* Ajusta el tamaño de la fuente/flecha dentro del botón */
+        margin-top: 5%;
+    }
+
+.add-user {
+    width: 20px;
+    height: auto;
+}
+
+
+/* Estilo básico para el modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    z-index: 10000;
+}
+
+.toast-success {
+    background-color: green;
+}
+
+.toast-error {
+    background-color: red;
+}
+

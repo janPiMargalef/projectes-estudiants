@@ -24,6 +24,17 @@ class User extends Authenticatable
 {
     return $this->hasMany(Project::class);
 }
+
+public function mentor()
+{
+    return $this->hasOne(Mentor::class);
+}
+
+public function student()
+{
+    return $this->hasOne(Student::class);
+}
+
     /**
      * The attributes that are mass assignable.
      *

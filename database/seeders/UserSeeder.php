@@ -19,21 +19,36 @@ class UserSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('12345678'),
                 'image' => '/images/profile-images/ip3.jpg',
-                'occupation' => 'mentor',
             ],
             [
                 'name' => 'Diego',
                 'email' => 'Diego@gmail.com',
                 'password' => bcrypt('12345678'),
                 'image' => '/images/profile-images/ip2.jpg',
-                'occupation' => 'student',
             ],
             [
                 'name' => 'Joan',
                 'email' => 'Joan@gmail.com',
                 'password' => bcrypt('12345678'),
                 'image' => '/images/profile-images/ip1.png',
-                'occupation' => 'student',
+            ],
+            [
+                'name' => 'Raul',
+                'email' => 'Raul@gmail.com',
+                'password' => bcrypt('12345678'),
+                'image' => '/images/profile-images/ip3.jpg',
+            ],
+            [
+                'name' => 'Ramon',
+                'email' => 'Ramon@gmail.com',
+                'password' => bcrypt('12345678'),
+                'image' => '/images/profile-images/ip2.jpg',
+            ],
+            [
+                'name' => 'Carlos',
+                'email' => 'Carlos@gmail.com',
+                'password' => bcrypt('12345678'),
+                'image' => '/images/profile-images/ip1.png',
             ],
             
         ];

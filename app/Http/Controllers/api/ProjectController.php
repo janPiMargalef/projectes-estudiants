@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProjectInvitation;
 use Validator;
 
 
@@ -323,4 +325,61 @@ class ProjectController extends Controller
              return response()->json($response,400);
                 }
     }
+
+    //metodo obtenir projectes de l'usuari connectat
+    public function createdProjects()
+{
+    // Comprobar si el usuario está autenticado
+    if (!Auth::check()) {
+        return response()->json(['error' => 'Usuario no autenticado'], 401);
+    }
+
+    $user = Auth::user(); 
+    $projects = $user->projects()->with('user')->paginate(2);
+
+    // Devolver los proyectos con una respuesta JSON
+    return response()->json([
+        'success' => true,
+        'projects' => $projects
+    ]);
 }
+
+
+
+public function sendInvitation(Request $request)
+{
+    $projectId = $request->projectId; 
+    $inviteeEmail = $request->inviteeEmail;
+    $user = User::where('email', $inviteeEmail)->first();
+
+    // Aquí, obtén la información necesaria sobre el proyecto
+    $project = Project::find($projectId);
+
+    if (!$user) {
+        // Si no existe un usuario con ese email, devuelve un mensaje de error
+        return back()->with('error', 'No existe un usuario con ese correo electrónico.');
+    }
+
+    if ($project) {
+        // Envía el correo de invitación solo si el usuario existe
+        Mail::to($inviteeEmail)->send(new ProjectInvitation($project->title, auth()->user()->name, $projectId, $user->id));
+        return back()->with('success', 'Invitación enviada correctamente.');
+    }
+
+ return back()->with('error', 'No se pudo enviar la invitación.');
+}
+
+
+public function acceptInvitation($projectId, $userId)
+{
+
+    // Redirigir o devolver una vista indicando que el usuario ha sido añadido al proyecto con éxito
+}
+
+}
+
+
+
+
+
+

@@ -51,9 +51,7 @@
                                 </li>
                             @endif
                         @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('index') }}"> {{ __('Mentors') }}</a>
-                        </li>
+                        
 
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('index') }}"> {{ __('Projects') }}</a>

@@ -18,9 +18,16 @@ return new class extends Migration
             $table->string('company');
             $table->string('sector');
             $table->string('description');
-            $table->string('budget');
+            $table->text('content');
+            $table->string('image');
             $table->string('date');
+            $table->string('teacher_name');
+            $table->string('teacher_email');
+            $table->string('mentor_preferences');
+            $table->string('education_level');
+            $table->foreignId('school_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('mentor_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

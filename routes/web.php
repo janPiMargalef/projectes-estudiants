@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/accept-invitation/{projectId}/{userId}', [ProjectController::class, 'acceptInvitation'])->name('accept-invitation');
+Route::post('/send-invitation', [ProjectController::class, 'sendInvitation'])->name('send.invitation');
 
 Route::group(['middleware' => ['auth']], function() {
 //Ruta index

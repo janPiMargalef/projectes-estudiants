@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
+Route::resource('/mentors', App\Http\Controllers\api\MentorController::class);
 Route::resource('/projects', App\Http\Controllers\api\ProjectController::class);
 Route::get('/projects/user/summary', [ProjectController::class, 'showUserProjects']);
 Route::get('/projects/user/saved', [ProjectController::class, 'userProjects']);
@@ -32,6 +33,7 @@ Route::get('/projects/user/info', [ProjectController::class, 'userInfo']);
 Route::post('/projects/user/image', [ProjectController::class, 'updateProfileImage']);
 Route::post('/projects/{project}/interact', [ProjectController::class, 'interact']);
 Route::delete('/projects/{project}/interaction', [ProjectController::class, 'removeInteraction']);
+Route::get('/projects/user/created', [ProjectController::class, 'createdProjects']);
 
 
 
