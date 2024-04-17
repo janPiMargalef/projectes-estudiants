@@ -20,6 +20,9 @@ Route::get('/', function () {
 
 Route::get('/accept-invitation/{projectId}/{userId}', [ProjectController::class, 'acceptInvitation'])->name('accept-invitation');
 Route::post('/send-invitation', [ProjectController::class, 'sendInvitation'])->name('send.invitation');
+Route::post('/projects/{projectId}/join-request', [ProjectController::class, 'handleJoinRequest'])->name('projects.join-request');
+Route::get('/accept-request/{projectId}/{userId}', [ProjectController::class, 'acceptJoinRequest']);
+
 
 Route::group(['middleware' => ['auth']], function() {
 //Ruta index
@@ -34,14 +37,20 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/token', function (Request $request) { 
-   
-    if(auth()->check()) {
-            auth()->user()->tokens()->delete();
-            $token = auth()->user()->createToken("prova");
-            return response()->json(['token' => $token->plainTextToken],200);
+    if (auth()->check()) {
+        auth()->user()->tokens()->delete(); // Opcional: elimina tokens existentes
+        
+        $userType = auth()->user()->user_type; // Obtiene el tipo desde el método accessor
+        
+        // Crear token con capacidad adicional para llevar el tipo de usuario
+        $token = auth()->user()->createToken('prova', ['role' => $userType]);
+        
+        return response()->json([
+            'token' => $token->plainTextToken,
+            'user_type' => $userType
+        ], 200);
+    } else {
+        return response()->json("Not authorized", 405);
     }
-    else {
-        return response()->json("Not authorized",405);
-    }
-            
 });
+

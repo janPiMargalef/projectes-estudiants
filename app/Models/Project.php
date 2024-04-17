@@ -22,4 +22,11 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'projects_students', 'project_id', 'student_id')
+            ->withTimestamps();
+    }
+    
+
 }

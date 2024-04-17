@@ -67,7 +67,7 @@ body, html {
     text-transform: uppercase;
 }
 
-.user-occupation {
+.user-detail {
     text-transform: uppercase;
 }
 
@@ -819,6 +819,7 @@ podrías necesitar ajustar el contenedor de buttonsIcons con flexbox */
 }
 
 .card-exemple-mentor {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 20px;
@@ -832,7 +833,7 @@ podrías necesitar ajustar el contenedor de buttonsIcons con flexbox */
     overflow: hidden;
 }
 
-.card-exemple-mentor img {
+.mentor-image {
     width: 150px;
     height: 260px;
     border-radius: 10%;
@@ -1200,6 +1201,20 @@ podrías necesitar ajustar el contenedor de buttonsIcons con flexbox */
     cursor: pointer;
 }
 
+.close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 
 
 
@@ -1211,13 +1226,150 @@ podrías necesitar ajustar el contenedor de buttonsIcons con flexbox */
     border-radius: 5px;
     color: white;
     z-index: 10000;
+    display: block !important;
 }
 
-.toast-success {
-    background-color: green;
+
+.request-image {
+    width: 20px;
+    height: auto;
+}
+.no-projects {
+    margin-left: 28%;
+    margin-top: 10%;
+    font-size: 24px; /* Tamaño de fuente más grande */
+    font-weight: 500; /* Peso de fuente */
 }
 
-.toast-error {
-    background-color: red;
+
+.modal-button {
+    background-color: #109336;
+    color: white;
+    width: 100px;
+    height: 30px;
+    margin: 0 7px; /* Espaiat entre botons */
+    border: none; /* Elimina el borde */
+    border-radius: 10px; /* Bordes rodons */
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 01); /* Sombra a la dreta i abaix del botó */
 }
+
+
+
+/* Estilos básicos para el modal de edición */
+.editProject {
+
+    min-height: 900px;
+    margin-left: 10%;
+    margin-top: 7%;
+    width: 80%;
+    max-width: 800px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1001; /* Asegúrate de que esté por encima de otros elementos */
+    display: none; /* Oculto por defecto */
+    margin-bottom: 30px;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #f1f1f1;
+    outline: none;
+}
+
+.tab:hover {
+    background-color: #ddd;
+}
+
+.tab:focus {
+    background-color: #ccc;
+}
+
+/* Estilos para la pestaña activa */
+.active {
+    background-color: #ccc;
+}
+
+.tabContent {
+    display: none; /* Oculto por defecto */
+    padding: 20px;
+}
+
+.tabContent.active {
+    display: block; /* Mostrar solo el contenido de la pestaña activa */
+}
+
+/* Área de CKEditor */
+#editor {
+    width: 100%;
+    height: 500px; /* Tamaño inicial del editor */
+}
+
+/* Estilos adicionales para información del proyecto */
+.infoTab {
+    font-size: 16px;
+}
+
+.infoTab ul {
+    list-style-type: none; /* Sin viñetas */
+    padding: 0;
+}
+
+.infoTab li {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+
+.back-button-edit {
+margin-bottom: 2%;
+    cursor: pointer;
+    border-radius: 30px;
+    height: 50px;
+    width: 50px;
+    border: none;
+    font-size: 40px;
+    background-color: #e4edf4;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido */
+}
+
+.back-button-edit:hover {
+    background-color: #baf1f5;
+}
+
+
+.save-mentor-button { 
+    position: absolute;
+    right: 30px; /* Coloca el botón a la derecha */
+    top: 30px; /* Ajusta la posición superior según necesites */
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+    width: 25px; /* Ajusta si es necesario */
+    height: 25px; /* Ajusta si es necesario */
+}
+
+.save-mentor-icon {
+    width: 100%; /* Usa 100% para que llene el botón */
+    height: 100%; /* Usa 100% para que llene el botón */
+}
+
+.save-mentor-button:hover { 
+    width: 30px; /* Ajusta si es necesario */
+    height: 30px;
+}
+
 

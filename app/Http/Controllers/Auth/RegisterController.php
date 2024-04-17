@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Mentor;
+use App\Models\Student;
 
 class RegisterController extends Controller
 {
@@ -61,12 +63,22 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+    
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    
+        if ($data['user_type'] == 'mentor') {
+            Mentor::create(['user_id' => $user->id]);
+        } else {
+            Student::create(['user_id' => $user->id]);
+        }
+    
+        return $user;
     }
+    
 }

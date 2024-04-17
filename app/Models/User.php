@@ -35,6 +35,23 @@ public function student()
     return $this->hasOne(Student::class);
 }
 
+public function mentors()
+{
+    return $this->belongsToMany(Mentor::class)->withTimestamps();
+}
+
+
+public function getUserTypeAttribute()
+{
+    if ($this->student()->exists()) {
+        return 'student';
+    } elseif ($this->mentor()->exists()) {
+        return 'mentor';
+    }
+    return 'general'; // Un tipo por defecto, si es necesario
+}
+
+
     /**
      * The attributes that are mass assignable.
      *

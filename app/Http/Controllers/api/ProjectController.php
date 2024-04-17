@@ -7,9 +7,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Project;
+use App\Models\Mentor;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProjectInvitation;
+use App\Mail\JoinRequestReceived;
+use Illuminate\Support\Facades\Log;
+
 use Validator;
 
 
@@ -63,26 +68,35 @@ class ProjectController extends Controller
     ]);
 }
 
-    public function userInfo()
-    {
-        // ordenats per ordre d'inserció
-        $user = Auth::user();
-        $userInfo = [
-            'name' => $user->name,
-            'email' => $user->email,
-            'image' => $user->image, 
-            'occupation' => $user->occupation, 
-        ];
+public function userInfo()
+{
+    $user = Auth::user();
+    $userInfo = [
+        'name' => $user->name,
+        'email' => $user->email,
+        'image' => $user->image,
+        'additional_info' => null
+    ];
 
-        $response = [
-            'success' => true,
-            'message' => "Info d'usuari recuperada",
-            'data' => $userInfo,
+    // Verificar el tipo de usuario y añadir información relevante
+    if ($user->student) {
+        $userInfo['additional_info'] = [
+            'type' => 'student',
+            'education_level' => $user->student->education_level // Asume que tienes un campo así
         ];
-
-        //return $response;
-        return response()->json($response,200);
+    } elseif ($user->mentor) {
+        $userInfo['additional_info'] = [
+            'type' => 'mentor',
+            'company' => $user->mentor->company // Asume que los mentores tienen una compañía asociada
+        ];
     }
+
+    return response()->json([
+        'success' => true,
+        'message' => "Información del usuario obtenida correctamente",
+        'data' => $userInfo
+    ], 200);
+}
 
 
     public function updateProfileImage(Request $request)
@@ -211,7 +225,7 @@ class ProjectController extends Controller
           if($project==null) {
               $response = [
                   'success' => false,
-                  'message' => "Projecte no trobat",
+                  'message' => "Proyecto no encontrado",
                   'data' => [],
               ];
 
@@ -220,7 +234,7 @@ class ProjectController extends Controller
           
           $response = [
                   'success' => true,
-                  'message' => "Projecte trobat",
+                  'message' => "Proyecto encontrado",
                   'data' => $project,
               ];
 
@@ -246,7 +260,7 @@ class ProjectController extends Controller
         if($project==null) {
             $response = [
                 'success' => false,
-                'message' => "Projecte no trobat",
+                'message' => "PProyecto no encontrado",
                 'data' => [],
             ];  
 
@@ -256,14 +270,6 @@ class ProjectController extends Controller
         $input = $request->all();
         $validator = Validator::make($input,
         [ 
-            'title'=>'required|min:3|max:10',
-            'logo'=>'required',
-            'company'=>'required',
-            'sector'=>'required',
-            'description'=>'required',
-            'budget'=>'required',
-            'date'=>'required',
-            'user_id'=>'required',
 
         ]
         );
@@ -271,7 +277,7 @@ class ProjectController extends Controller
         if($validator->fails()) {
             $response = [
                 'success' => false,
-                'message' => "Errors de validació",
+                'message' => "Errores de validación",
                 'data' => $validator->errors()->all(),
             ];
             
@@ -281,7 +287,7 @@ class ProjectController extends Controller
         $project->update($input);
         $response = [
                 'success' => true,
-                'message' => "Projecte actualitzat correctament",
+                'message' => "Proyecto actualizado correctamente",
                 'data' => $project,
         ];
 
@@ -299,7 +305,7 @@ class ProjectController extends Controller
          if($project==null) {
              $response = [
                  'success' => false,
-                 'message' => "Projecte no trobat",
+                 'message' => "Projecte no encontrado",
                  'data' => [],
              ];
 
@@ -310,8 +316,8 @@ class ProjectController extends Controller
              $project->delete();
              $response = [
                      'success' => true,
-                     'message' => "Projecte esborrat",
-                     'data' => $planet,
+                     'message' => "Proyecto eliminado",
+                     'data' => $project,
                  ];
 
              return response()->json($response,200);
@@ -319,7 +325,7 @@ class ProjectController extends Controller
          catch(\Exception $e) {
              $response = [
                      'success' => false,
-                     'message' => "Error esborrant projecte",                    
+                     'message' => "Error eliminando el proyecto",                    
                  ];
 
              return response()->json($response,400);
@@ -369,12 +375,77 @@ public function sendInvitation(Request $request)
  return back()->with('error', 'No se pudo enviar la invitación.');
 }
 
-
+//acceptar invitació (nou registre en projects_students)
 public function acceptInvitation($projectId, $userId)
 {
+    $project = Project::find($projectId);
+    $user = User::find($userId);
 
-    // Redirigir o devolver una vista indicando que el usuario ha sido añadido al proyecto con éxito
+    if (!$project || !$user) {
+        return redirect()->back()->with('error', 'La invitación no es válida.');
+    }
+
+    // Asegúrate de usar 'student_id' aquí si ese es el nombre de tu campo
+    if ($project->students()->where('student_id', $userId)->exists()) {
+        return redirect('/index')->with('info', 'Ya eres miembro de este proyecto.');
+    }
+
+    $project->students()->attach($userId); // Esto está correcto
+
+    return redirect('/index')->with('success', 'Te has unido al proyecto exitosamente.');
 }
+
+
+public function handleJoinRequest(Request $request, $projectId)
+{
+    $project = Project::find($projectId);
+    if (!$project) {
+        return response()->json(['message' => 'Proyecto no encontrado.']);
+    }
+
+    $creator = $project->user; // El creador del proyecto
+    $requesterUser = $request->user(); // El usuario solicitante
+
+    // Asume que tienes una relación entre Student y User llamada user()
+    $requesterStudent = Student::where('user_id', $requesterUser->id)->first();
+
+    if (!$requesterStudent) {
+        return response()->json(['message' => 'No se pudo encontrar el perfil de estudiante asociado.']);
+    }
+
+    // Envía un correo electrónico al creador del proyecto
+    Mail::to($creator->email)->send(new JoinRequestReceived($project, $requesterStudent));
+
+    return response()->json(['message' => 'Tu solicitud para unirte al proyecto ha sido enviada.']);
+}
+
+
+
+//aceptar solicitud de unirse
+public function acceptJoinRequest($projectId, $userId)
+{
+    $project = Project::find($projectId);
+    $user = User::find($userId);
+
+    if (!$project || !$user) {
+        return redirect()->back()->with('error', 'La solicitud no es válida.');
+    }
+
+    // Asegúrate de usar 'student_id' aquí si ese es el nombre de tu campo
+    if ($project->students()->where('student_id', $userId)->exists()) {
+        return redirect('/index')->with('info', 'Este usuario ya es miembro del proyecto.');
+    }
+
+    // Añade al usuario al proyecto
+    $project->students()->attach($userId);
+
+    return redirect('/index')->with('success', 'El usuario ha sido añadido al proyecto exitosamente.');
+}
+
+
+
+ 
+
 
 }
 

@@ -2,10 +2,25 @@
 @section('content')
 
 @if(session('success'))
-    <div>HOLAAAAAAA</div>
+    <div class="toast" style="background-color: green;">{{ session('success') }}</div>
 @elseif(session('error'))
-    <div>HOLAAAAAAAA ERROR</div>
+    <div class="toast" style="background-color: red;">{{ session('error') }}</div>
 @endif
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        const toast = document.querySelector('.toast');
+        if (toast) {
+            // Usar setProperty para aplicar 'display: none' con !important
+            toast.style.setProperty('display', 'none', 'important');
+        }
+    }, 5000); 
+});
+
+</script>
+
+
 <body>
 
 
@@ -15,10 +30,12 @@
             <div class="profile-info">
             <img src="/images/profile-images/default-image.jpg" alt="Foto de perfil" id="profileImage" class="clickable">
             <input type="file" id="imageInput" name="image" accept="image/*" style="display: none;">
-                <h6 class="user-name"></h6>
-                <h6 class="user-occupation"></h6>
-                <h6 class="user-name">Energianaccion</h6>
-            </div>
+            <h6 id="userName" class="user-name"></h6>
+            <h6 id="additionalInfo" class="user-additional-info"></h6> <!-- Modificado para mostrar información adicional de educación o compañía -->
+            <h6>Energianaccion</h6>
+        </div>
+
+
             <!-- Apartat dels projectes de l'usuari -->
             <div class="user-projects">
                 <h6>MIS PROYECTOS</h6>
@@ -34,7 +51,6 @@
 
 
                 <div class="button-container">
-                    <button class="buttonProjects">Todos</button>
                     <button class="buttonProjects" onclick="openForm()">Añadir</button>
                     <button class="buttonProjects">Unirse</button>
                 </div>
@@ -80,6 +96,33 @@
         <div id="createdProjects" class="created-projects-container">
    
         </div>
+
+        <div class="editProject">
+        <button id="backButton" class="back-button-edit"><</button>
+
+    <div class="tabs">
+        <button class="tab" onclick="openTab(event, 'contentTab')">Contenido del proyecto</button>
+        <button class="tab" onclick="openTab(event, 'infoTab')">Información del proyecto</button>
+    </div>
+    <div id="contentTab" class="tabContent">
+        <!-- Aquí va el contenido del proyecto en el docs -->
+        <textarea id="editor"></textarea>
+    </div>
+    <div id="infoTab" class="tabContent">
+        <!-- Aquí van ejemplos estáticos de información del proyecto -->
+        <p>Ejemplo de información del proyecto:</p>
+        <ul>
+            <li>Participante 1</li>
+            <li>Participante 2</li>
+            <!-- Agrega más información según sea necesario -->
+        </ul>
+            </div>
+            <button id="saveChanges">Guardar Cambios</button>
+            <button id="exportToPDF">Exportar a PDF</button>
+
+
+        </div>
+
 
             <button class="show-more-button" id="showMore">Mostrar más</button>
         </div>
@@ -174,11 +217,30 @@
     @csrf
     <input type="email" id="inviteeEmail" name="inviteeEmail" placeholder="Correo electrónico" required>
     <input type="hidden" id="projectId" name="projectId">
-    <button type="submit">Enviar Invitación</button>
+    <button type="submit" class="modal-button">Enviar</button>
 </form>
 
     </div>
 </div>
+
+<!-- Modal para solicitar unirse -->
+<div id="joinRequestModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Solicitar unirse al proyecto</h2>
+        <button id="confirmJoinRequest" class="modal-button">Solicitar</button>
+    </div>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div id="deleteConfirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>¿Estás seguro de que deseas eliminar este proyecto?</h2>
+        <button id="confirmDeletion" class="modal-button">Confirmar</button>
+    </div>
+</div>
+
 
 
 <footer class="footer">
@@ -219,14 +281,16 @@
 <!--<textarea id="editor"></textarea> -->
 
 </body>
-<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+<script src="https://cdn.tiny.cloud/1/giy4rpf0e4htzyodg1ax0xdi9tb5cdgqhj1f8a3rpb8wh7rs/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+
 
 
 
 <script>
-    
 
-// Script para ocultar el toast después de unos segundos
+
 
 
 //CKEDITOR.replace('editor');
@@ -251,6 +315,7 @@ document.querySelector('.buttonContainerMain').addEventListener('click', functio
         const cardContainer = document.querySelector('.cardContainer');
         const mentorDetailsContainer = document.querySelector('.mentorDetailsContainer');
         const projectDetailsContainer = document.querySelector('.projectDetailsContainer'); 
+        const editProject = document.querySelector('.editProject'); 
         const showMoreButton = document.getElementById('showMore');
 
                 // Determinar cuál botón fue clickeado y llamar a la función correspondiente
@@ -263,6 +328,8 @@ document.querySelector('.buttonContainerMain').addEventListener('click', functio
                 document.getElementById('myProjectsSection').style.boxShadow = '';
                 createdProjects.innerHTML = ''; 
                 createdProjects.style.display = 'none';
+                editProject.innerHTML = ''; 
+                editProject.style.display = 'none';
                 cardContainer.innerHTML = ''; 
                 mentorContainer.innerHTML = ''; 
                 mentorContainer.style.display = 'none';
@@ -285,6 +352,8 @@ document.querySelector('.buttonContainerMain').addEventListener('click', functio
                 document.getElementById('myProjectsSection').style.boxShadow = '';
                 createdProjects.innerHTML = ''; 
                 createdProjects.style.display = 'none';
+                editProject.innerHTML = ''; 
+                editProject.style.display = 'none';
                 mentorContainer.innerHTML = ''; 
                 cardContainer.innerHTML = ''; 
                 cardContainer.style.display = 'none';
@@ -468,7 +537,6 @@ async function fetchProjects(resetPage = false) {
                     sector: project.sector,
                     description: project.description,
                     date: project.date,
-                    education_level: project.education_level,
                     button1: "Marketing",
                     button2: "Legal",
                     button3: "Engineering",
@@ -547,15 +615,59 @@ function createCard(project) {
     description.className = "description";
     description.textContent = project.description;
 
-    const budget = document.createElement('div');
-    budget.className = "budget";
-    const budgetHeader = document.createElement('div');
-    budgetHeader.className = "budget-header";
-    const budgetTitle = document.createElement('p');
-    budgetTitle.className = "budget-title";
-    budgetTitle.textContent = project.education_level;
-    budgetHeader.appendChild(budgetTitle);
-    budget.appendChild(budgetHeader);
+   // Aquí añadimos el nuevo botón con icono debajo de la descripción
+   const joinButton = document.createElement('button');
+   const closeModalButtons = document.querySelectorAll('.close');
+   const confirmJoinRequestButton = document.getElementById('confirmJoinRequest');
+    joinButton.className = "budget";
+    joinButton.innerHTML = '<img src="icons/solicitud-icon.png" alt="Join Icon" class="request-image">';
+
+        // Añade el evento de clic al botón de unirse para abrir el modal
+    joinButton.onclick = function() {
+        joinRequestModal.style.display = 'block';
+    };
+
+    // Añade eventos de clic a los botones de cerrar para ocultar el modal
+    closeModalButtons.forEach(button => {
+        button.onclick = function() {
+            joinRequestModal.style.display = 'none';
+        };
+    });
+    confirmJoinRequestButton.onclick = function() {
+    const projectId = project.id;
+    const url = `/projects/${projectId}/join-request`;
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token,
+        },
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Error al enviar la solicitud de unirse');
+        }
+    })
+    .then(data => {
+        // Mostrar el mensaje de éxito al usuario
+        showToast(data.message, 'green');
+    })
+    .catch(error => {
+        // Mostrar el mensaje de error al usuario
+        showToast('Error al enviar la solicitud de unirse', 'red');
+        console.error('Error:', error);
+    });
+
+    // Ocultar el modal después de enviar la solicitud
+    joinRequestModal.style.display = 'none';
+};
+
+
+
 
     const dateContainer = document.createElement('div');
     dateContainer.className = "date-container";
@@ -645,7 +757,7 @@ card.appendChild(title);
 card.appendChild(company);
 card.appendChild(sector);
 card.appendChild(description);
-card.appendChild(budget);
+card.appendChild(joinButton);
 card.appendChild(dateContainer);
 card.appendChild(buttonRow);
 card.appendChild(buttonRow2);
@@ -656,8 +768,23 @@ document.querySelector('.cardContainer').appendChild(card);
 
 }
 
+function showToast(message, color) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.style.backgroundColor = color;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Ocultar el toast después de unos segundos
+    setTimeout(() => {
+        toast.style.setProperty('display', 'none', 'important');
+    }, 5000);
+}
+
+
 //Method to generate token
 let token;
+let user_type;
 
 async function getToken() {
     console.log('Obteniendo token...');
@@ -672,7 +799,9 @@ async function getToken() {
         if (response.ok) {
             const json = await response.json();
             token = json.token;
+            user_type = json.user_type;
             console.log("Token obtenido: ", token);
+            console.log("Tipo de usuario: ", user_type);
 
             // Ahora que tenemos el token, llamamos a fetchProjects
             fetchProjects();
@@ -841,21 +970,30 @@ async function fetchUserInfo() {
 
         if (response.ok) {
             const json = await response.json();
-            // Suponiendo que has obtenido la respuesta del servidor en una variable `response`
             const user = json.data;
-            //console.log(user)
-            document.querySelector('.profile-info img').src = user.image;
-            document.querySelector('.profile-info .user-name').textContent = user.name;
-            document.querySelector('.profile-info .user-occupation').textContent = user.occupation;
-        
 
+            document.getElementById('profileImage').src = user.image || '/images/profile-images/default-image.jpg';
+            document.getElementById('userName').textContent = user.name;
+
+            // Ajusta la información adicional basada en el tipo de usuario
+            if (user.additional_info) {
+                let additionalInfoText = "";
+                if (user.additional_info.type === 'student') {
+                    additionalInfoText = `Nivel Académico: ${user.additional_info.education_level}`;
+                } else if (user.additional_info.type === 'mentor') {
+                    additionalInfoText = `Compañía: ${user.additional_info.company}`;
+                }
+                document.getElementById('additionalInfo').textContent = additionalInfoText;
+            }
         } else {
-            console.error('Error fetching user info');
+            throw new Error('Failed to fetch user info.');
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error loading user info:', error);
     }
 }
+
+
 
 //function to create interaction btween project and user
 document.querySelector('.cardContainer').addEventListener('click', function(event) {
@@ -963,21 +1101,21 @@ const url = `http://localhost:8000/api/mentors?page=${currentMentorPage}`;
 function createCardMentor(mentor, mentorContainer) {
   const card = document.createElement('div');
   card.className = 'card-exemple-mentor';
-
-  // Convierte el string de expertises en un array de especialidades
-  const expertises = mentor.expertise.split(',');
-
-  // Crear mini tarjetas para cada especialidad
-  const expertiseTags = expertises.map(expertise => `<span class="expertise-tag">${expertise.trim()}</span>`).join('');
+  const expertiseTags = mentor.expertise ? mentor.expertise.split(',').map(expertise => `<span class="expertise-tag">${expertise.trim()}</span>`).join('') : '';
+  const mentorImageSrc = mentor.user.image || '/images/profile-images/default-image.jpg';
+  const saveIconSrc = mentor.isSaved ? "/icons/saved-mentor.png" : "/icons/save-mentor.png"; // Usa la imagen adecuada según si está guardado
 
   card.innerHTML = `
-    <img src="${mentor.user.image}" alt="Imagen del mentor" class="mentor-image">
+    <img src="${mentorImageSrc}" alt="Imagen del mentor" class="mentor-image">
     <div class="card-content">
-    <h3 class="mentor-name">${mentor.user.name}</h3>
-    <p>Email: ${mentor.user.email}</p>
-    <p>Actualmente trabajando para ${mentor.company}</p>
-      <p>${mentor.career_summary}</p>
-      <div class="expertise-container">${expertiseTags}</div>
+        <h3 class="mentor-name">${mentor.user.name}</h3>
+        <p>Email: ${mentor.user.email}</p>
+        <p>Actualmente trabajando para ${mentor.company}</p>
+        <p>${mentor.career_summary}</p>
+        <div class="expertise-container">${expertiseTags}</div>
+        <button class="save-mentor-button">
+            <img src="${saveIconSrc}" alt="Guardar mentor" class="save-mentor-icon">
+        </button>
     </div>
   `;
 
@@ -986,9 +1124,38 @@ function createCardMentor(mentor, mentorContainer) {
   card.querySelector('.mentor-name').addEventListener('click', function() {
     console.log('Se hizo clic en el nombre del mentor:', mentor.user.name);
     fetchMentorDetails(mentor.id);
-    // Aquí puedes agregar la lógica adicional que desees
   });
+
+  card.querySelector('.save-mentor-button').addEventListener('click', function() {
+    const mentorId = mentor.id;
+
+    fetch(`/api/users/toggle-save-mentor/${mentorId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+        if (data.isSaved) {
+            this.innerHTML = '<img src="/icons/saved-mentor.png" alt="Guardar mentor" class="save-mentor-icon">';
+        } else {
+            this.innerHTML = '<img src="/icons/save-mentor.png" alt="Guardar mentor" class="save-mentor-icon">';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+
+    });
+});
+
 }
+
+
+
 
 //mentor details
 async function fetchMentorDetails(mentorId) {
@@ -1091,14 +1258,20 @@ function showProjectDetails(projectId) {
     backButton.innerHTML = '←'; // O puedes usar un ícono
     backButton.className = 'back-button';
     backButton.onclick = function() {
-        // Mostrar nuevamente el contenedor de tarjetas y los controles de paginación
-        cardContainer.style.display = 'flex';
-        showMoreButton.style.display = 'block';
+        // Decidir qué mostrar en función de la sección actual
+        if (currentSection === 'createdProjects') {
+            createdProjects.style.display = 'flex';
+            showMoreButton.style.display = 'block';
+        } else {
+            cardContainer.style.display = 'flex';
+            showMoreButton.style.display = 'block';
+        }
 
         // Ocultar y limpiar el contenedor de detalles del proyecto
         projectDetailsContainer.style.display = 'none';
         projectDetailsContainer.innerHTML = '';
-    }; 
+    };
+
 
     let currentCreatedPage = 1;
     // Asumiendo que tienes una función que obtiene los detalles del proyecto basada en projectId
@@ -1170,16 +1343,20 @@ async function fetchCreatedProjects(resetPage = false) {
     if (response.ok) {
       const data = await response.json();
       console.log(data); // Verificación
-
       const createdProjects = data.projects.data;
+
+
+      const container = document.getElementById('createdProjects');
+      if (createdProjects.length === 0) {
+                // Si no hay proyectos, muestra un mensaje
+                container.innerHTML = '<p class="no-projects">No tienes ningún proyecto.</p>';
+                return; // Termina la ejecución aquí para evitar más procesamiento
+            }
+
       const totalPages = data.projects.last_page;
       const currentPage = data.projects.current_page;
       const creatorName = data.projects.data[0].user.name;
       
-      const container = document.getElementById('createdProjects');
-
-
-
       createdProjects.forEach(project => {
         cardProjectCreated(project, creatorName); // Asume que esta función ya maneja correctamente un único proyecto
       });
@@ -1216,12 +1393,12 @@ function cardProjectCreated(project, creator) {
         <div class="button-container-created">
             <!-- Botones -->
             <button onclick="editProject(${project.id})" class="button-project-created">Editar</button>
-            <button onclick="deleteProject(${project.id})" class="button-project-created">Eliminar</button>
+            <button onclick="openDeleteConfirmation(${project.id})" class="button-project-created">Eliminar</button>
             <button class="button-project-created" id="button-invite">
                 <img src="/icons/add-user.png" alt="Invitar" class="add-user">
             </button>
         </div>
-        <button class="open-button-created">></button> 
+        <button class="open-button-created" onclick="showCreatedDetails(${project.id})">></button> 
     `;
 
     // Añadir la tarjeta al contenedor
@@ -1238,27 +1415,191 @@ function cardProjectCreated(project, creator) {
     });
 }
 
+// Función para cambiar entre pestañas
+function openTab(event, tabName) {
+    // Ocultar todos los elementos con clase "tabContent"
+    const tabContents = document.getElementsByClassName('tabContent');
+    for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].style.display = 'none';
+    }
+    // Mostrar el contenido de la pestaña seleccionada
+    document.getElementById(tabName).style.display = 'block';
+}
 
-// Funciones de ejemplo para editar y eliminar, necesitarás implementar la lógica
+
+// Función para cargar el contenido del proyecto
+async function loadProjectContent(projectId) {
+    try {
+        const response = await fetch(`/api/projects/${projectId}`, {
+            headers: { 'Accept': 'application/json', 'Authorization': 'Bearer ' + token },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const project = data.data;
+            if (tinymceEditor) {
+                tinymceEditor.setContent(project.content);
+            }
+        } else {
+            throw new Error('Failed to load project content.');
+        }
+    } catch (error) {
+        console.error('Error loading project:', error);
+    }
+}
+
+function exportToPDF(editor) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Obtener el contenido como texto plano
+    const content = editor.getContent({ format: 'text' });
+
+    // Define el ancho máximo del texto, por ejemplo, 180 mm
+    const pageWidth = doc.internal.pageSize.getWidth() - 20;  // 20 mm de margen total
+
+    // Divide el texto para que se ajuste dentro del ancho de la página
+    const lines = doc.splitTextToSize(content, pageWidth);
+
+    // Añade el texto al documento PDF. El '10' es el margen izquierdo y el '10' es la posición inicial del texto en el eje Y
+    doc.text(lines, 10, 10);
+
+    // Guarda el documento con el nombre deseado
+    doc.save('project-document.pdf');
+}
+
+
+
+var tinymceEditor;
+var currentProjectId;
+
+// Función para mostrar el contenedor editProject
 function editProject(projectId) {
-    console.log('Editar proyecto', projectId);
-    // Implementar la lógica para editar el proyecto
+    currentProjectId = projectId;
+    const showMoreButton = document.getElementById('showMore');
+    showMoreButton.style.display = 'none';
+
+    const createdProjects = document.querySelector('.created-projects-container');
+    createdProjects.style.display = 'none';
+    const editProjectContainer = document.querySelector('.editProject');
+    editProjectContainer.style.display = 'block'; // Mostrar el contenedor
+    // Mostrar la primera pestaña por defecto
+    document.getElementById('contentTab').style.display = 'block';
+    // Inicializar el editor CKEditor en el textarea
+
+
+    tinymce.init({
+        selector: '#editor',
+        plugins: 'autoresize image link',
+        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+        height: 500,
+        setup: function (editor) {
+            tinymceEditor = editor; // Guarda la referencia del editor
+            document.getElementById('saveChanges').addEventListener('click', function() {
+                saveProjectChanges(editor, currentProjectId);  // Pasar el ID del proyecto a la función de guardado
+            });
+        }
+    });
+
+    loadProjectContent(projectId);
+
+document.getElementById('backButton').addEventListener('click', function() {
+    document.querySelector('.editProject').style.display = 'none';
+    document.querySelector('.created-projects-container').style.display = 'flex';
+    
+    showMoreButton.style.display = 'block';
+});
+
+document.getElementById('exportToPDF').addEventListener('click', function() {
+    if (tinymceEditor) {
+        exportToPDF(tinymceEditor);
+    }
+});
+
+
 }
 
-function deleteProject(projectId) {
-    console.log('Eliminar proyecto', projectId);
-    // Implementar la lógica para eliminar el proyecto
+
+async function saveProjectChanges(editor, projectId) {
+    const editorData = editor.getContent(); // Obtén el contenido del editor TinyMCE
+
+    try {
+        const response = await fetch(`/api/projects/${projectId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({ content: editorData })
+        });
+
+        if (response.ok) {
+            console.log('Cambios guardados exitosamente');
+        } else {
+            throw new Error('No se pudieron guardar los cambios');
+        }
+    } catch (error) {
+        console.error('Error al guardar los cambios:', error);
+    }
 }
+
+
+
+function openDeleteConfirmation(projectId) {
+    const confirmDeletionButton = document.getElementById('confirmDeletion');
+    confirmDeletionButton.onclick = function() { confirmDeleteProject(projectId); };
+    document.getElementById('deleteConfirmationModal').style.display = 'block';
+}
+
+
+
+async function confirmDeleteProject(projectId) {
+    document.getElementById('deleteConfirmationModal').style.display = 'none'; // Cerrar el modal
+
+    const url = `http://localhost:8000/api/projects/${projectId}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        });
+
+        const json = await response.json();
+        if (response.ok) {
+            const createdProjects = document.querySelector('.created-projects-container');
+            createdProjects.innerHTML = ''; 
+            fetchCreatedProjects(true);
+            fetchUserProjectsSummary();
+            showToast(json.message, 'green');
+
+        } else {
+            console.error('Error al eliminar el proyecto');
+            showToast(json.message, 'red');
+        }
+    } catch (error) {
+        console.error('Error al eliminar el proyecto:', error);
+        showToast('Error al eliminar el proyecto', 'red');
+    }
+}
+
+
 
 function showCreatedDetails(projectId) {
-
+const createdProjects = document.querySelector('.created-projects-container');
+createdProjects.style.display = 'none';
+console.log("created")
+showProjectDetails(projectId);
 }
 
 
 // Añadir evento de clic al hacer clic en myProjectsSection
 document.getElementById('myProjectsSection').addEventListener('click', function() {
 
-
+    currentSection = 'createdProjects'; 
     const createdProjects = document.querySelector('.created-projects-container');
     const mentorContainer = document.querySelector('.mentorContainer');
     const cardContainer = document.querySelector('.cardContainer');
@@ -1321,9 +1662,9 @@ document.getElementById('joinedProjectsSection').addEventListener('click', funct
 
 document.querySelectorAll('.button-project-created img').forEach(button => {
     button.addEventListener('click', function(event) {
-        const projectId = this.getAttribute('data-project-id'); // Asegúrate de tener este atributo en tu botón
-        document.getElementById('projectId').value = projectId; // Asigna el projectId al campo oculto
-        document.getElementById('invitationModal').style.display = 'block'; // Muestra el modal
+        const projectId = this.getAttribute('data-project-id'); 
+        document.getElementById('projectId').value = projectId; 
+        document.getElementById('invitationModal').style.display = 'block'; 
     });
 });
 
@@ -1331,6 +1672,13 @@ document.querySelectorAll('.button-project-created img').forEach(button => {
 document.querySelector('.close').addEventListener('click', function() {
     document.getElementById('invitationModal').style.display = 'none';
 });
+
+// Para cerrar el modal
+document.querySelector('.close-modal').addEventListener('click', function() {
+    document.getElementById('deleteConfirmationModal').style.display = 'none';
+});
+
+
 
 
 

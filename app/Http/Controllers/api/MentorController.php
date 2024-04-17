@@ -16,7 +16,14 @@ class MentorController extends Controller
      */
     public function index()
     {
+        $user = auth()->user(); // Obtiene el usuario autenticado
         $mentors = Mentor::with('user')->paginate(10);
+    
+        // Comprueba si cada mentor está guardado por el usuario
+        $mentors->getCollection()->transform(function ($mentor) use ($user) {
+            $mentor->isSaved = $user ? $user->mentors()->where('mentor_id', $mentor->id)->exists() : false;
+            return $mentor;
+        });
     
         return response()->json([
             'success' => true,
@@ -24,6 +31,25 @@ class MentorController extends Controller
             'data' => $mentors,
         ]);
     }
+
+    public function saveOrUnsaveMentor($mentorId)
+{
+    $user = auth()->user();  // Obtiene el usuario autenticado
+    $mentor = Mentor::findOrFail($mentorId);  // Encuentra el mentor o falla si no existe
+
+    // Alternar el estado de guardado del mentor
+    $user->mentors()->toggle($mentorId);
+
+    // Comprobar si el mentor está actualmente guardado después del toggle
+    $isSaved = $user->mentors()->where('mentor_id', $mentorId)->exists();
+
+    return response()->json([
+        'message' => $isSaved ? 'Mentor guardado exitosamente.' : 'Mentor desguardado exitosamente.',
+        'isSaved' => $isSaved  // Devuelve el nuevo estado de "guardado"
+    ]);
+}
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -90,4 +116,6 @@ class MentorController extends Controller
     {
         //
     }
+
+    
 }
